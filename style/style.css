@@ -1,9 +1,50 @@
-h1{
-    color:red;
+* {
+    font-family: Georgia, serif;
 }
 
-main{
+.header{
+    padding:10px;
+    border-bottom: 1px solid gray;
+}
+
+.header h1{
+    margin-left: 50px;
+}
+
+.footer{
+    border-top:1px solid gray;
+    padding-bottom: 20px;
+}
+
+.header, .footer{
+    background-color: #A4C6FF;
+    color: white;
+}
+
+.main{
     text-align: center;
     width: 700px;
     margin: auto;
+    color: gray;
+}
+
+.main a{
+    color: gray;
+}
+
+.rough-title{
+    border-bottom: 1px solid gray;
+}
+
+.contents{
+    margin-top: 20px;
+}
+
+.footer p{
+    margin-left: 50px;
+}
+
+.links{
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
 }
