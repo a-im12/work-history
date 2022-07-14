@@ -1,4 +1,4 @@
-* {
+h1, h2, h3, p, a, ul, ol{
     font-family: Georgia, serif;
 }
 
@@ -9,6 +9,14 @@
 
 .header h1{
     margin-left: 50px;
+}
+
+.top-link{
+    font-size: large;
+    position: absolute;
+    color: white;
+    margin-top: -51px;
+    margin-left: 80%;
 }
 
 .footer{
@@ -38,7 +46,7 @@
 
 .contents{
     margin-top: 20px;
-    text-align: left;
+    text-align: justify;
 }
 
 .footer p{
@@ -48,8 +56,27 @@
 .links{
     border-top: 1px solid gray;
     border-bottom: 1px solid gray;
+    text-align: left;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 .contents-title{
     margin-top: 30px;
+    border-bottom: 1px solid gray;
+}
+
+.code-result{
+    text-align: center;
+}
+
+.optional div{
+    float: left;
+    margin:auto;
+    width: 32%;
+    border-bottom: 1px solid gray;
+}
+
+.optional{
+    display: flex;
 }

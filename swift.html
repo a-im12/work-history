@@ -4,28 +4,154 @@
         <meta charset="utf-8">
         <title>Swift</title>
         <link rel="stylesheet" href="style/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism-okaidia.min.css">
     </head>
     <body>
         <div class="header">
             <!-- そのページの概要 -->
             <h1 class="page-title">~~ Swift ~~</h1>
+            <a class="top-link" href="index.html">Back to Top</a>
         </div>
         <div class="main">
             <h3>links</h3>
             <div class="links">
                 <ol>
                     <!-- ページ内リンク -->
-                    <li><a href="#1">型</a></li>
+                    <li><a href="#1">変数</a></li>
+                    <li><a href="#2">定数</li>
+                    <li><a href="#3">基本的な型</a></li>
+                    <li><a href="#4">Optinal型</a></li>
                 </ol>
             </div>
             <br>
             <br>
             <br>
-            <!-- コンテンツタイトル -->
-            <h3 class="contents-title">型</h3>
             <!-- コンテンツ -->
             <div class="contents" id="1">
-                
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">変数</h2>
+                <p>
+                    変数とは値を保存するための箱のようなもので、変数に値を入れることで
+                    値を再利用できます。<br>
+                    また、Swiftは<span style="font-size: 1.1em; color: black;">静的型付け言語</span>のため、
+                    型宣言時に<a href="#3">型</a>を指定してあげなくてはいけません。
+                    その変数の型に一致しない値を代入しようとした場合、コンパイルエラーとなってしまいます。
+                    一方で変数に静的な型は存在せず、代入された値によってその変数の型が決まる言語のことを
+                    <span style="font-size: 1.1em; color: black;">動的型付け言語</span>といい、代表的なものではPythonが挙げられます。
+                </p>
+                <p>具体的な宣言方法</p>
+                <pre><code class="language-javascript">
+                    // var 変数名:型 = 値
+                    var num:Int = 10
+                </code></pre>
+                <p>
+                    また、変数や<a href="#2">定数</a>の宣言時に型を宣言しなくても、<span style="font-size: 1.1em; color: black;">型推論</span>
+                    という機能によって自動的に型が振り分けられます。<br>
+                    しかし、型推論を利用するためには、変数宣言時に値を代入している必要があります。
+                </p>
+                <p>
+                    ここでは、Int型の変数numを宣言しています。<br>
+                    型については後で触れています。<br>
+                </p>
+                <p>その他の変数同士の演算や、代入、などは割愛します。</p>
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="2">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">定数</h2>
+                <p>
+                    定数とはほとんど<a href="#1">変数</a>と同じ機能を持っています。
+                    唯一違う点は、<span style="font-size: 1.1em; color: black;">再代入</span>できない
+                    という違いです。一度値を持たされた定数に再度値を代入するとコンパイルエラーとなってしまいます。
+                </p>
+                <p>具体的な宣言方法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+                    // let 定数名:型名 = 値
+                    let num:Int = 12
+                </code></pre>
+                <p>ここでこの定数numに値を再代入すると...</p>
+                <img src="img/teisuu.png" style="height:100%; width:100%;">
+                <p>コンパイルエラーとなってしまいます。</p>
+
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="3">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">基本的な型</h2>
+                <p>Swiftが取り扱う基本的な型は以下の通りです。</p>
+                <table style="margin-left: 50px;">
+                    <tr>
+                        <th>型名</th><th>概要</th>
+                    </tr>
+                    <tr>
+                        <td><a href="#1_1">Int</a></td><td>整数値を扱う</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#1_2">String</a></td><td>文字列を扱う</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#1_3">Double</a></td><td>64ビット浮動小数値を扱う</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#1_4">Float</a></td><td>32ビット浮動小数値を扱う</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#1_5">Boolean</a></td><td>真偽値を扱う</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#1_6">Any</a></td><td>全ての値を扱う</td>
+                    </tr>
+                </table>
+                <p>
+                    概要に書いてあるとおり、それぞれで扱うことのできる値が変わってきます。
+                    またそれぞれの型にOptional型というものがあり、詳しくは次のセクションで
+                    解説しています。
+                </p>
+                <p>
+                    その値が何の型なのかを調べるときには
+                </p>
+                <pre><code class="language-javascript">
+                    print(type(of: 任意の値))
+                </code></pre>
+                <p>を実行することで、その値の型を調べることができます。</p>
+                <p>結果↓</p>
+                <div class="code-result">
+                    <img src="img/type.png" style="height: 50%; width: 50%;">
+                </div>
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="4">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">Optional型</h2>
+                <p>
+                    Optional型とは何も値が入っていない状態(nil値)を許容する型です。
+                    通常の型にnil値を入れるとコンパイルエラーとなってしまうため、
+                    nil値が入ると思われるところに使用します。
+                </p>
+                <p>
+                    Optional型として<a href="#1">変数</a>・<a href="#2">定数</a>を宣言する場合は
+                    Optinal&lt;型名&gt;もしくは型名?とすることで宣言できます。
+                </p>
+                <p>具体的な宣言方法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+                    var optionalNum:Optional&lt;Int&gt; = 12
+                    let optionalStr:String? = nil
+                </code></pre>
+                <p>
+                    ただしOptional型はnil値を許容しているため、演算をすることができません。
+                    そこで、演算を行うためにはOptional型から値を取り出す<span style="font-size: 1.1em; color: black;">アンラップ</span>
+                    を行う必要があります。
+                </p>
+                <p>アンラップの方法には以下の3つがあります。</p>
+                <ul>
+                    <li>if-let文を使ったアンラップ</li>
+                    <li>??演算子を使ったアンラップ</li>
+                    <li>強制アンラップ</li>
+                </ul>
+                <h3>if-let文を使ったアンラップ</h3>
+                <p>if</p>
             </div>
         </div>
         <div class="footer">
@@ -41,4 +167,7 @@
             <p><a href="https://github.com/a-im12" style="color: white;">github : a-im12</a></p>
         </div>
     </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/autoloader/prism-autoloader.min.js
+    "></script>
 </html>
