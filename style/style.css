@@ -5,25 +5,23 @@ h1, h2, h3, p, a, ul, ol{
 .header{
     padding:10px;
     border-bottom: 1px solid gray;
+    margin-bottom: 50px;
 }
 
 .header h1{
     margin-left: 50px;
 }
 
-.mian-img {
-    margin-top:50px;  
+.mian-img{
     position: relative;
     width: 250px;
     height: 250px;
     object-fit: cover;
-    /* filter: opacity(30%); */
+
 }
 
 .start{
     position: absolute;
-    top: 0;
-    left: 0;
 }
 
 .top-link{
