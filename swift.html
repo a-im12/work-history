@@ -21,6 +21,11 @@
                     <li><a href="#2">定数</li>
                     <li><a href="#3">基本的な型</a></li>
                     <li><a href="#4">Optinal型</a></li>
+                    <li><a href="#5">リスト</a></li>
+                    <li><a href="#6">辞書</a></li>
+                    <li><a href="#7">範囲</a></li>
+                    <li><a href="#8">if文</a></li>
+                    <li><a href="#9">for文</a></li>
                 </ol>
             </div>
             <br>
@@ -151,7 +156,82 @@
                     <li>強制アンラップ</li>
                 </ul>
                 <h3>if-let文を使ったアンラップ</h3>
-                <p>if</p>
+                <p>
+                    if-let分を使用することでOptional型をアンラップすることができます。
+                </p>
+                <p>文法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+                    let opInt:Optional&lt;Int&gt; = 12
+
+                    // if let 変数名 = Optional型の変数
+                    if let int = opInt{
+                        // アンラップ成功時に実行したい処理
+                    }
+                </code></pre>
+                <p>
+                    ここでアンラップした先の変数intのスコープはif-let文内となるため、文の外では利用できません。<br>
+                    (スコープとはその変数にアクセスできる範囲のこと)
+                </p>
+                <p>
+                    また、通常の<a href="#8">if文</a>と同じく、文末にelseを追加することで、アンラップに失敗したときの処理を
+                    追加することができます。
+                </p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+                    let opStr:Optional&lt;String&gt; = nil
+
+                    if let str = opStr{
+                        // アンラップ成功時の処理
+                    }else{
+                        // アンラップ失敗時の処理
+                    }
+                </code></pre>
+                <h3>??演算子を使ったアンラップ</h3>
+                <p>
+                    アンラップ先の変数・定数宣言時に??演算子を用いることでアンラップを行うことができます。
+                </p>
+                <p>文法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+                    var opInt:Optional&lt;Int&gt; = 12
+                    // var 変数名:型名 Optional型の変数 ?? アンラップしたい型の具体的な値 
+                    var int:Int = opInt ?? 0
+                    print(int)  // 12
+
+                    opInt = nil
+                    int = opInt ?? 100
+                    print(int)  //100
+
+                </code></pre>
+                <p>
+                    ??演算子を使ったアンラップは、Optional型の値がnil値でない場合は
+                    アンラップされた値が代入され、nil値の場合は??演算子のうしろについている
+                    具体的な値が代入されます。これにより、代入先にnil値が入らないことを
+                    保証しています。
+                </p>
+                <h3>強制アンラップ</h3>
+                <p>
+                    強制アンラップとは、Optioanl型にnil値が入っている状態を考えず、すぐに
+                    アンラップを行う手法です。<br>
+                    強制アンラップはOptional型の変数の後ろに「!」をつけることで行えます。
+                </p>
+                <p>文法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+                    var a:Optional&lt;Int&gt; = 12
+                    var b:Optional&lt;Int&gt; = 2
+
+                    print(a! + b!)  //14
+                </code></pre>
+                <p>
+                    このように、Optional型の変数から直接値を取り出せます。<span style="font-size: 1.1em; color: black;">しかし</span>
+                    この方法はOptional型の変数がnil値だった場合エラーとなる危険性があるので、使う場面をより慎重に考え、
+                    適切に使用しなければなりません。乱用は避けましょう。
+                </p>
+                <p>nil値が入っているときに、強制アンラップを行った場合</p>
+                <!-- 画像を入れる -->
+                <img>
             </div>
         </div>
         <div class="footer">
