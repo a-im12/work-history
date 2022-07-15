@@ -46,8 +46,8 @@
                 </p>
                 <p>具体的な宣言方法</p>
                 <pre><code class="language-javascript">
-                    // var 変数名:型 = 値
-                    var num:Int = 10
+// var 変数名:型 = 値
+var num:Int = 10
                 </code></pre>
                 <p>
                     また、変数や<a href="#2">定数</a>の宣言時に型を宣言しなくても、<span style="font-size: 1.1em; color: black;">型推論</span>
@@ -72,8 +72,8 @@
                 <p>具体的な宣言方法</p>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
-                    // let 定数名:型名 = 値
-                    let num:Int = 12
+// let 定数名:型名 = 値
+let num:Int = 12
                 </code></pre>
                 <p>ここでこの定数numに値を再代入すると...</p>
                 <img src="img/teisuu.png" style="height:100%; width:100%;">
@@ -117,7 +117,7 @@
                     その値が何の型なのかを調べるときには
                 </p>
                 <pre><code class="language-javascript">
-                    print(type(of: 任意の値))
+print(type(of: 任意の値))
                 </code></pre>
                 <p>を実行することで、その値の型を調べることができます。</p>
                 <p>結果↓</p>
@@ -141,8 +141,8 @@
                 <p>具体的な宣言方法</p>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
-                    var optionalNum:Optional&lt;Int&gt; = 12
-                    let optionalStr:String? = nil
+var optionalNum:Optional&lt;Int&gt; = 12
+let optionalStr:String? = nil
                 </code></pre>
                 <p>
                     ただしOptional型はnil値を許容しているため、演算をすることができません。
@@ -162,12 +162,12 @@
                 <p>文法</p>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
-                    let opInt:Optional&lt;Int&gt; = 12
+let opInt:Optional&lt;Int&gt; = 12
 
-                    // if let 変数名 = Optional型の変数
-                    if let int = opInt{
-                        // アンラップ成功時に実行したい処理
-                    }
+// if let 変数名 = Optional型の変数
+if let int = opInt{
+    // アンラップ成功時に実行したい処理
+}
                 </code></pre>
                 <p>
                     ここでアンラップした先の変数intのスコープはif-let文内となるため、文の外では利用できません。<br>
@@ -179,13 +179,13 @@
                 </p>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
-                    let opStr:Optional&lt;String&gt; = nil
+let opStr:Optional&lt;String&gt; = nil
 
-                    if let str = opStr{
-                        // アンラップ成功時の処理
-                    }else{
-                        // アンラップ失敗時の処理
-                    }
+if let str = opStr{
+    // アンラップ成功時の処理
+}else{
+    // アンラップ失敗時の処理
+}
                 </code></pre>
                 <h3>??演算子を使ったアンラップ</h3>
                 <p>
@@ -194,15 +194,14 @@
                 <p>文法</p>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
-                    var opInt:Optional&lt;Int&gt; = 12
-                    // var 変数名:型名 Optional型の変数 ?? アンラップしたい型の具体的な値 
-                    var int:Int = opInt ?? 0
-                    print(int)  // 12
+var opInt:Optional&lt;Int&gt; = 12
+// var 変数名:型名 Optional型の変数 ?? アンラップしたい型の具体的な値 
+var int:Int = opInt ?? 0
+print(int)  // 12
 
-                    opInt = nil
-                    int = opInt ?? 100
-                    print(int)  //100
-
+opInt = nil
+int = opInt ?? 100
+print(int)  //100
                 </code></pre>
                 <p>
                     ??演算子を使ったアンラップは、Optional型の値がnil値でない場合は
@@ -219,10 +218,10 @@
                 <p>文法</p>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
-                    var a:Optional&lt;Int&gt; = 12
-                    var b:Optional&lt;Int&gt; = 2
+var a:Optional&lt;Int&gt; = 12
+var b:Optional&lt;Int&gt; = 2
 
-                    print(a! + b!)  //14
+print(a! + b!)  //14
                 </code></pre>
                 <p>
                     このように、Optional型の変数から直接値を取り出せます。<span style="font-size: 1.1em; color: black;">しかし</span>
