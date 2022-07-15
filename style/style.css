@@ -16,6 +16,7 @@ h1, h2, h3, p, a, ul, ol{
     width: 250px;
     height: 250px;
     object-fit: cover;
+    filter: opacity(30%);
 }
 
 .start{
