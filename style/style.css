@@ -11,6 +11,16 @@ h1, h2, h3, p, a, ul, ol{
     margin-left: 50px;
 }
 
+.mian-img {  
+    position: relative;
+}
+
+.start{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .top-link{
     font-size: large;
     position: absolute;
@@ -80,3 +90,4 @@ h1, h2, h3, p, a, ul, ol{
 .optional{
     display: flex;
 }
+
