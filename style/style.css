@@ -11,7 +11,8 @@ h1, h2, h3, p, a, ul, ol{
     margin-left: 50px;
 }
 
-.mian-img {  
+.mian-img {
+    margin-top:50px;  
     position: relative;
     width: 250px;
     height: 250px;
