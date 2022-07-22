@@ -248,8 +248,33 @@ print(a! + b!)  //14
                 <br>
                 <h3>アップキャスト</h3>
                 <p>
-                    
+                    アップキャストとは階層関係にある具体的な値を、上位の抽象的な値に変換することを言う。
+                    キャストには「as」を使用する。
                 </p>
+                <p>文法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+var str:String = "aaa"      // 具体的な型(String)
+var any:Any = str as Any    // 上位の抽象的な型(Any)
+                </code></pre>
+                <h3>ダウンキャスト</h3>
+                <p>
+                    もう一つのダウンキャストは、アップキャストとは反対に上位の抽象的な
+                    型を下位の具体的な型に変換することを言います。また、ダウンキャストされた値は
+                    オプショナル型となる。キャストには「as?」「as!」を使用する。
+                    しかし、「as!」はダウンキャストと同時に<span style="font-size: 1.1em; color: black;">強制アンラップ</span>を行うため、
+                    キャスト元にnil値が入っているとエラーとなる。扱いには注意が必要。
+                </p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+var any:Any = 12                // 抽象的な型
+var opInt:Int? = any as? Int?   // Optinal(12)
+
+any = nil
+
+opInt = any as? Int?            //nil
+var int:Int = any as! Int       // キャストもとにnil値が入っているのでエラー
+                </code></pre>
             </div>
             <!-- コンテンツ -->
             <div class="contents" id="6">
@@ -316,6 +341,52 @@ print(arrray3)  // [1, 2, 3, 4, 6, 7, 8, 9]
 var opIntArray: Array&lt;Optional&lt;Int&gt;&gt; = [1, 2, nil, 4]
 opIntArray.remove(at: 2)    // [1, 2, 4]
                 </code></pre>
+            </div>
+            <div class="contents" id="7">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">辞書</h2>
+                <p>
+                    辞書とは、キーとそのキーに対応した値を集めたデータのことを言う。
+
+                </p>
+                <p>具体的な宣言方法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// var 変数名:Dictionaly&lt;キーの型, 値の型&gt; = [キー:値, キー:値, キー:値...]
+var dict:Dictionaly&lt;Int, String&gt; = [1 : "佐藤", 2 : "鈴木", 3 : "田中"]
+                </code></pre>
+                <p>
+                    辞書のキーを指定することで、それに対応した値を取り出すことができる。
+                    この取り出した値は、<a href="#4">Optional型</a>となって返ってくる。また、存在しない
+                    キーを指定した場合は、nil値が返ってくる。Optional型である理由は
+                    ここにあるのかもしれない。
+
+                </p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// 辞書名[キー]
+var dict:Dictionaly&lt;Int, String&gt; = [1 : "佐藤", 2 : "鈴木", 3 : "田中"]
+
+var opName:Optional&lt;String&gt;
+opName = dict[2]     // Optional("鈴木")
+opName = dict[9]     // nil
+                </code></pre>
+                <p>また、辞書にも「追加」「更新」「削除」の機能がある。</p>
+                <br>
+                <h3>追加</h3>
+                <p>値を追加したい場合は存在しないキーに値を代入する。</p>
+                <p>文法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// 辞書名[存在しないキー] = 追加したい値
+var dict:Dictionaly&lt;Int, String&gt; = [1 : "佐藤", 2 : "鈴木", 3 : "田中"]
+
+dict[4] = "高橋"
+print(dict)     // [1 : "佐藤", 2 : "鈴木", 3 : "田中", 4 : "高橋"]
+                </code></pre>
+                <br>
+                <h3>更新</h3>
+                <p></p>
             </div>
         </div>
         <div class="footer">
