@@ -21,11 +21,12 @@
                     <li><a href="#2">定数</li>
                     <li><a href="#3">基本的な型</a></li>
                     <li><a href="#4">Optinal型</a></li>
-                    <li><a href="#5">リスト</a></li>
-                    <li><a href="#6">辞書</a></li>
-                    <li><a href="#7">範囲</a></li>
-                    <li><a href="#8">if文</a></li>
-                    <li><a href="#9">for文</a></li>
+                    <li><a href="#5">型のキャスト</a></li>
+                    <li><a href="#6">リスト</a></li>
+                    <li><a href="#7">辞書</a></li>
+                    <li><a href="#8">範囲</a></li>
+                    <li><a href="#9">if文</a></li>
+                    <li><a href="#10">for文</a></li>
                 </ol>
             </div>
             <br>
@@ -175,7 +176,7 @@ if let int = opInt{
                     (スコープとはその変数にアクセスできる範囲のこと)
                 </p>
                 <p>
-                    また、通常の<a href="#8">if文</a>と同じく、文末にelseを追加することで、アンラップに失敗したときの処理を
+                    また、通常の<a href="#9">if文</a>と同じく、文末にelseを追加することで、アンラップに失敗したときの処理を
                     追加することができます。
                 </p>
                 <!-- プログラムソースの埋め込み -->
@@ -238,10 +239,82 @@ print(a! + b!)  //14
             <!-- コンテンツ -->
             <div class="contents" id="5">
                 <!-- コンテンツタイトル -->
-                <h2 class="contents-title">リスト</h2>
+                <h2 class="contents-title">型のキャスト</h2>
                 <p>
-                    リストとは、変数の寄せ集めのような構造のデータです。
+                    キャストとは現在の型を別の型として扱う手法のことを言い、
+                    <span style="font-size: 1.1em; color: black;">アップキャスト</span>と
+                    <span style="font-size: 1.1em; color: black;">ダウンキャスト</span>の二つがある。
                 </p>
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="6">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">配列</h2>
+                <p>
+                    配列とは、変数の寄せ集めのような構造のデータ。
+                    使用方法はPythonやほかの言語と大差ないが、宣言方法が独特である。
+                    <a href="#10">for文</a>と組み合わせて使用することもできる。
+                    Optional型として宣言することも可能。
+                </p>
+                <p>具体的な宣言方法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+                    <!-- ここにコードを書く -->
+// var 変数名:Array&lt;任意の型名&gt; = [値, 値, 値.....]
+var numArray:Array&lt;Int&gt; = [1, 2, 3, 4, 5, 6]
+
+print(numArray[2])  // 3
+                </code></pre>
+                <p>他にも「追加」「挿入」「結合」「削除」が可能。</p>
+                <br>
+                <h3>追加</h3>
+                <p>配列.append(値)で指定した配列に値を追加することができる。</p>
+                <p>文法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// 配列.append(値)
+var opStrArray:Array&lt;String?&gt; = ["A", "B", "C", "E"]
+opStrArray.append(nil)  // ["A", "B", "C", "E", nil]
+                </code></pre>
+                <br>
+                <h3>挿入</h3>
+                <p>配列.insert(値, at:インデックス)で、指定した配列の指定したインデックスに値を追加することができる。</p>
+                <p>文法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+                    <!-- ここにコードを書く -->
+// 配列.insert(値, at:インデックス)
+var anyArray:Array&lt;Any&gt; = [1, "aa", 1.5, True]
+anyArray.insert(2, at:1)    // [1, 2, "aa", 1.5, True]
+                </code></pre>
+                <br>
+                <h3>結合</h3>
+                <p>
+                    配列 + 配列とすることで配列同士を結合することができる。感覚的には文字列結合に近い<br>
+                    ※型は統一されていないとエラーとなる。
+                </p>
+                <p>文法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+                    <!-- ここにコードを書く -->
+// 配列 + 配列
+var array1 = [1, 2, 3, 4]
+var array2 = [6, 7, 8, 9]
+
+var array3 = array1 + array2
+print(arrray3)  // [1, 2, 3, 4, 6, 7, 8, 9]
+                </code></pre>
+                <br>
+                <h3>削除</h3>
+                <p>配列.remove(at:インデックス)とすることで指定した配列の指定したインデックスの値を削除することができる。</p>
+                <p>文法</p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+                    <!-- ここにコードを書く -->
+// 配列.remove(at:インデックス)
+var opIntArray: Array&lt;Optional&lt;Int&gt;&gt; = [1, 2, nil, 4]
+opIntArray.remove(at: 2)    // [1, 2, 4]
+                </code></pre>
             </div>
         </div>
         <div class="footer">
