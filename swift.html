@@ -45,7 +45,7 @@
                     一方で変数に静的な型は存在せず、代入された値によってその変数の型が決まる言語のことを
                     <span style="font-size: 1.1em; color: black;">動的型付け言語</span>といい、代表的なものではPythonが挙げられます。
                 </p>
-                <p>具体的な宣言方法</p>
+                <strong>具体的な宣言方法</strong>
                 <pre><code class="language-javascript">
 // var 変数名:型 = 値
 var num:Int = 10
@@ -70,7 +70,7 @@ var num:Int = 10
                     唯一違う点は、<span style="font-size: 1.1em; color: black;">再代入</span>できない
                     という違いです。一度値を持たされた定数に再度値を代入するとコンパイルエラーとなってしまいます。
                 </p>
-                <p>具体的な宣言方法</p>
+                <strong>具体的な宣言方法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 // let 定数名:型名 = 値
@@ -121,7 +121,7 @@ let num:Int = 12
 print(type(of: 任意の値))
                 </code></pre>
                 <p>を実行することで、その値の型を調べることができます。</p>
-                <p>結果↓</p>
+                <strong>結果↓</strong>
                 <div class="code-result">
                     <img src="img/type.png" style="height: 50%; width: 50%;">
                 </div>
@@ -139,7 +139,7 @@ print(type(of: 任意の値))
                     Optional型として<a href="#1">変数</a>・<a href="#2">定数</a>を宣言する場合は
                     Optinal&lt;型名&gt;もしくは型名?とすることで宣言できます。
                 </p>
-                <p>具体的な宣言方法</p>
+                <strong>具体的な宣言方法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 var optionalNum:Optional&lt;Int&gt; = 12
@@ -161,7 +161,7 @@ let optionalStr:String? = nil
                 <p>
                     if-let分を使用することでOptional型をアンラップすることができます。
                 </p>
-                <p>文法</p>
+                <strong>文法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 let opInt:Optional&lt;Int&gt; = 12
@@ -194,7 +194,7 @@ if let str = opStr{
                 <p>
                     アンラップ先の変数・定数宣言時に??演算子を用いることでアンラップを行うことができます。
                 </p>
-                <p>文法</p>
+                <strong>文法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 var opInt:Optional&lt;Int&gt; = 12
@@ -219,7 +219,7 @@ print(int)  //100
                     アンラップを行う手法です。<br>
                     強制アンラップはOptional型の変数の後ろに「!」をつけることで行えます。
                 </p>
-                <p>文法</p>
+                <strong>文法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 var a:Optional&lt;Int&gt; = 12
@@ -234,7 +234,7 @@ print(a! + b!)  //14
                 </p>
                 <p>nil値が入っているときに、強制アンラップを行った場合</p>
                 <!-- 画像を入れる -->
-                <img>
+                <img src="img/anrappu.png" style="width: 100%;">
             </div>
             <!-- コンテンツ -->
             <div class="contents" id="5">
@@ -243,15 +243,15 @@ print(a! + b!)  //14
                 <p>
                     キャストとは現在の型を別の型として扱う手法のことを言い、
                     <span style="font-size: 1.1em; color: black;">アップキャスト</span>と
-                    <span style="font-size: 1.1em; color: black;">ダウンキャスト</span>の二つがある。
+                    <span style="font-size: 1.1em; color: black;">ダウンキャスト</span>の二つがあります。
                 </p>
                 <br>
                 <h3>アップキャスト</h3>
                 <p>
-                    アップキャストとは階層関係にある具体的な値を、上位の抽象的な値に変換することを言う。
-                    キャストには「as」を使用する。
+                    アップキャストとは階層関係にある具体的な値を、上位の抽象的な値に変換することを言います。
+                    キャストには「as」を使用します。
                 </p>
-                <p>文法</p>
+                <strong>文法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 var str:String = "aaa"      // 具体的な型(String)
@@ -261,10 +261,11 @@ var any:Any = str as Any    // 上位の抽象的な型(Any)
                 <p>
                     もう一つのダウンキャストは、アップキャストとは反対に上位の抽象的な
                     型を下位の具体的な型に変換することを言います。また、ダウンキャストされた値は
-                    オプショナル型となる。キャストには「as?」「as!」を使用する。
+                    オプショナル型となります。キャストには「as?」「as!」を使用します。
                     しかし、「as!」はダウンキャストと同時に<span style="font-size: 1.1em; color: black;">強制アンラップ</span>を行うため、
-                    キャスト元にnil値が入っているとエラーとなる。扱いには注意が必要。
+                    キャスト元にnil値が入っているとエラーとなります。扱いには注意が必要です。
                 </p>
+                <strong>文法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 var any:Any = 12                // 抽象的な型
@@ -281,12 +282,12 @@ var int:Int = any as! Int       // キャストもとにnil値が入っている
                 <!-- コンテンツタイトル -->
                 <h2 class="contents-title">配列</h2>
                 <p>
-                    配列とは、変数の寄せ集めのような構造のデータ。
-                    使用方法はPythonやほかの言語と大差ないが、宣言方法が独特である。
-                    <a href="#10">for文</a>と組み合わせて使用することもできる。
-                    Optional型として宣言することも可能。
+                    配列とは、変数の寄せ集めのような構造のデータです。
+                    使用方法はPythonやほかの言語と大差ないが、宣言方法が独特であります。
+                    <a href="#10">for文</a>と組み合わせて使用することもできます。
+                    Optional型として宣言することも可能です。
                 </p>
-                <p>具体的な宣言方法</p>
+                <strong>具体的な宣言方法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 // var 変数名:Array&lt;任意の型名&gt; = [値, 値, 値.....]
@@ -294,11 +295,11 @@ var numArray:Array&lt;Int&gt; = [1, 2, 3, 4, 5, 6]
 
 print(numArray[2])  // 3
                 </code></pre>
-                <p>他にも「追加」「挿入」「結合」「削除」が可能。</p>
+                <p>他にも「追加」「挿入」「結合」「削除」が可能です。</p>
                 <br>
                 <h3>追加</h3>
-                <p>配列.append(値)で指定した配列に値を追加することができる。</p>
-                <p>文法</p>
+                <p>配列.append(値)で指定した配列に値を追加することができます。</p>
+                <strong>文法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 // 配列.append(値)
@@ -307,8 +308,8 @@ opStrArray.append(nil)  // ["A", "B", "C", "E", nil]
                 </code></pre>
                 <br>
                 <h3>挿入</h3>
-                <p>配列.insert(値, at:インデックス)で、指定した配列の指定したインデックスに値を追加することができる。</p>
-                <p>文法</p>
+                <p>配列.insert(値, at:インデックス)で、指定した配列の指定したインデックスに値を追加することができます。</p>
+                <strong>文法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 // 配列.insert(値, at:インデックス)
@@ -318,10 +319,10 @@ anyArray.insert(2, at:1)    // [1, 2, "aa", 1.5, True]
                 <br>
                 <h3>結合</h3>
                 <p>
-                    配列 + 配列とすることで配列同士を結合することができる。感覚的には文字列結合に近い<br>
-                    ※型は統一されていないとエラーとなる。
+                    配列 + 配列とすることで配列同士を結合することができます。感覚的には文字列結合に近いです。<br>
+                    ※型は統一されていないとエラーとなってしまいます。
                 </p>
-                <p>文法</p>
+                <strong>文法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 // 配列 + 配列
@@ -333,33 +334,44 @@ print(arrray3)  // [1, 2, 3, 4, 6, 7, 8, 9]
                 </code></pre>
                 <br>
                 <h3>削除</h3>
-                <p>配列.remove(at:インデックス)とすることで指定した配列の指定したインデックスの値を削除することができる。</p>
-                <p>文法</p>
+                <p>配列.remove(at:インデックス)とすることで指定した配列の指定したインデックスの値を削除することができます。</p>
+                <strong>文法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 // 配列.remove(at:インデックス)
 var opIntArray: Array&lt;Optional&lt;Int&gt;&gt; = [1, 2, nil, 4]
 opIntArray.remove(at: 2)    // [1, 2, 4]
                 </code></pre>
+                <p>
+                    また、配列の中のすべての要素を削除したい場合は配列.removeAll()と
+                    することで、インデックスを指定せずにすべての要素を削除することができます。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// 配列.removeAll()
+
+var array:Array&lt;Int?&gt; = [1, 3, 4, nil, 5]
+array.removeAll()       // []
+                </code></pre>
             </div>
             <div class="contents" id="7">
                 <!-- コンテンツタイトル -->
                 <h2 class="contents-title">辞書</h2>
                 <p>
-                    辞書とは、キーとそのキーに対応した値を集めたデータのことを言う。
-
+                    辞書とは、キーとそのキーに対応した値を集めたデータのことを言います。
                 </p>
-                <p>具体的な宣言方法</p>
+                <strong>具体的な宣言方法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 // var 変数名:Dictionaly&lt;キーの型, 値の型&gt; = [キー:値, キー:値, キー:値...]
 var dict:Dictionaly&lt;Int, String&gt; = [1 : "佐藤", 2 : "鈴木", 3 : "田中"]
                 </code></pre>
                 <p>
-                    辞書のキーを指定することで、それに対応した値を取り出すことができる。
-                    この取り出した値は、<a href="#4">Optional型</a>となって返ってくる。また、存在しない
-                    キーを指定した場合は、nil値が返ってくる。Optional型である理由は
-                    ここにあるのかもしれない。
+                    辞書のキーを指定することで、それに対応した値を取り出すことができます。
+                    この取り出した値は、<a href="#4">Optional型</a>となって返ってきます。また、存在しない
+                    キーを指定した場合は、nil値が返ってきます。Optional型である理由は
+                    ここにあるのかもしれないです。
 
                 </p>
                 <!-- プログラムソースの埋め込み -->
@@ -371,11 +383,11 @@ var opName:Optional&lt;String&gt;
 opName = dict[2]     // Optional("鈴木")
 opName = dict[9]     // nil
                 </code></pre>
-                <p>また、辞書にも「追加」「更新」「削除」の機能がある。</p>
+                <p>また、辞書にも「追加」「更新」「削除」の機能があります。</p>
                 <br>
                 <h3>追加</h3>
-                <p>値を追加したい場合は存在しないキーに値を代入する。</p>
-                <p>文法</p>
+                <p>値を追加したい場合は存在しないキーに値を代入します。</p>
+                <strong>文法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
 // 辞書名[存在しないキー] = 追加したい値
@@ -386,7 +398,137 @@ print(dict)     // [1 : "佐藤", 2 : "鈴木", 3 : "田中", 4 : "高橋"]
                 </code></pre>
                 <br>
                 <h3>更新</h3>
-                <p></p>
+                <p>
+                    値を更新したい場合は更新したい値に対応したキーを指定して、そこに
+                    代入を行います。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// 辞書[更新したい値のキー] = 値
+
+var dict:Dictionaly&lt;Int, String&gt; = [1 : "佐藤", 2 : "鈴木", 3 : "田中"]
+dict[2] = "渡辺"
+print(dict)     // [1 : "佐藤", 2 : "渡辺", 3 : "田中"]
+                </code></pre>
+                <br>
+                <h3>削除</h3>
+                <p>
+                    辞書の値を削除したいときは、削除したい値に対応したキーを指定して、そこに
+                    nil値を代入することで、キーごと辞書から削除することができます。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// 辞書[削除したい値のキー] = nil
+
+var dict = [1 : "佐藤", 2 : "鈴木", 3 : "田中"]
+dict[2] = nil
+print(dict)     // [1 : "佐藤", 3 : "田中"]
+                </code></pre>
+                <p>
+                    また、配列と同様に、すべての値を削除したい場合は辞書.removeAll()
+                    とすることで、すべてのキーと値を削除することができます。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// 辞書.removeAll()
+
+var dict = [1 : "佐藤", 2 : "鈴木", 3 : "田中"]
+dict.removeAll()
+
+print(dict)     // [:]
+                </code></pre>
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="8">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">範囲</h2>
+                <p>
+                    範囲型とはその名の通り一定の範囲を表すことのできる型です。
+                    用途としては、ある数値がその範囲内に存在するかを調べたり、
+                    <a href="#10">for文</a>とあわせて使ったりします。
+                    また、範囲型にはさまざまな範囲を表す型があるので、覚えるのが
+                    大変でした。以下が範囲型の一覧です。
+                </p>
+                <ul>
+                    <li><a href="#8_1">Range</a></li>
+                    <li><a href="#8_2">CountableRange</a></li>
+                    <li><a href="#8_3">ClosedRange</a></li>
+                    <li><a href="#8_4">CountableClosedRange</a></li>
+                    <li><a href="#8_5">PartialRangeFrom</a></li>
+                    <li><a href="#8_6">CountablePartialRangeFrom</a></li>
+                    <li><a href="#8_7">PartialRangeUpto</a></li>
+                    <li><a href="#8_8">PartialRangeThrough</a></li>
+                </ul>
+                <br>
+                <h3 id="8_1">Range</h3>
+                <p>
+                    Range型は以上~未満の範囲を表します。型には「Int」
+                    「Double」「Float」が指定できます。
+                    また、型にIntを指定した場合、勝手に<a href="#8_2">CountableRange</a>
+                    となります。
+                    Range型はカウント不可なので、for文と組み合わせて使用することga
+                    できません。
+                </p>
+                <strong>具体的な宣言方法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// var 変数名:Range&lt;型名&gt; = 始まりの数値..&lt;終わりの数値
+var range:Range&lt;Double&gt; = 1.2..&lt;5.5    // 1.2 ~ 5.49999999...までの範囲を表す
+                </code></pre>
+                <br>
+                <h3 id="8_2">CountableRange</h3>
+                <p>
+                    CountableRange型は名前にもある通り、カウントできるRange型です。
+                    指定できる型は、先ほども記述したように、Int型のみとなってます。
+                    カウント可能なので、for文と組み合わせて使用することができます。
+                </p>
+                <strong>具体的な宣言方法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// var 変数名:CountableRange&lt;Int&gt; = 始まりの数値..&lt;終わりの数値
+var range:CountableRange&lt;Int&gt; = 0..&lt;10     // 0 ~ 9までの範囲を表す
+                </code></pre>
+                <br>
+                <h3 id="8_3">ClosedRange</h3>
+                <p>
+                    CountableRange型は以上~その数値までの範囲を表します。
+                    型には「Int」「Double」「Float」が指定できます。
+                    また、型にIntを指定した場合、勝手に<a href="#8_4">CountableClosedRange</a>
+                    となります。
+                    ClosedRange型はカウント不可なので、for文と組み合わせて使用することはできません。
+                </p>
+                <strong>具体的な宣言方法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// var 変数名:ClosedRange&lt;型名&gt; = 始まりの数値...終わりの数値
+var range:ClosedRange&lt;Float&gt; = 1.0...4.9  // 1.0 ~ 4.9までの範囲を表す
+                </code></pre>
+                <br>
+                <h3 id="8_4">CountableClosedRange</h3>
+                <p>
+                    CountableClosedRange型はClosedRange型のカウント可能版の型です。
+                    カウント可能なので、for文と組み合わせて使用することができます。
+                    また、指定できる型はInt型のみです。
+                </p>
+                <strong>具体的な宣言方法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// let 定数名:CountableClosedRange&lt;Int&gt; = 始まりの数値...終わりの数値
+let range:CountableClosedRange&lt;Int&gt; = 0...10  //0 ~ 10までの範囲を表す
+                </code></pre>
+                <br>
+                <h3 id="8_5">PartialRangeFrom</h3>
+                <p>
+                    PartialRangeFrom型はその数値以上の範囲を表します。
+                    型には「Int」「Double」「Float」が指定できます。
+                    また、型にIntを指定した場合、勝手に<a href="8_6">CountablePartialRangeFrom</a>
+                    となります。
+                    PartialRangeFrom型はカウント不可なので、for文と組み合わせて
+                    使用することはできません。
+                </p>
             </div>
         </div>
         <div class="footer">
