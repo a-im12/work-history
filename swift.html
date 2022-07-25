@@ -529,6 +529,81 @@ let range:CountableClosedRange&lt;Int&gt; = 0...10  //0 ~ 10までの範囲を�
                     PartialRangeFrom型はカウント不可なので、for文と組み合わせて
                     使用することはできません。
                 </p>
+                <strong>具体的な宣言方法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// var 変数名:PartialRangeFrom&lt;型名&gt; = 始まりの値...
+var range:PartialRangeFrom&lt;Double&gt; = 0.2...   // 0.2以上の範囲を表す
+                </code></pre>
+                <br>
+                <h3 id="8_6">CountablePartialRangeFrom</h3>
+                <p>
+                    CountablePartialRangeFrom型はPartialRangeFrom型の
+                    カウント可能版です。カウントが可能なのでfor文と組み合わせて使用できますが、
+                    終わりの境界が存在しないため、無限ループとなります。
+                    また、指定できる型はInt型のみです。
+                </p>
+                <strong>具体的な宣言方法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// let 定数名:CountablePartialRangeFrom&lt;Int&gt; = 始まりの数値...
+let range:CountablePartialRangeFrom&lt;Int&gt; = 100... // 100以上の範囲を表します
+                </code></pre>
+                <br>
+                <h3 id="8_7">PartialRangeUpto</h3>
+                <p>
+                    PartialRangeUpto型はその数値未満の範囲を表します。
+                    型には「Int」「Double」「Float」が指定できます。
+                    また、この型はカウント不可なのでfor文と組み合わせて使用することができません。
+                </p>
+                <strong>具体的な宣言方法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// var 変数名:PartialRangeUpto&lt;型名&gt; = ..&lt;終わりの数値
+var range:PartialRangeUpto&lt;Int&gt; = ..&lt;10    // 9.999999999..までの範囲を表す
+                </code></pre>
+                <br>
+                <h3 id="8_8">PartialRangeThrough</h3>
+                <p>
+                    PartialRangeThrough型はその数値以下の範囲を表します。
+                    型には「Int」「Double」「Float」が指定できます。
+                    また、この型はカウント不可なのでfor文と組み合わせて使用することができません。
+                </p>
+                <strong>具体的な宣言方法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// let 定数名:PartialRangeThrough&lt;型名&gt; = ...終わりの数値
+let range:PartialRangeThrough&lt;Double&gt; = ...102.7  // 102.7までの範囲を表す
+                </code></pre>
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="9">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">if文</h2>
+                <p>
+                    if文とは分岐を扱うための制御構文です。
+                    処理の内容は他の言語と大きな違いはないので、
+                    すんなり入ってきました。Pythonとの違いを言えば
+                    「:」ではなく「{}」で領域を決めるということです。
+                    Javaと似ています。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// if 条件式 {
+//      条件成立時に実行したい処理 
+// }
+
+var num:Int = 12
+
+if num &gt; 10{
+    print("numは10より大きい数です。")  // 実行される
+}
+
+if num &lt; 10{
+    print("numは10より小さい数です。")  // 実行されない
+}
+                </code></pre>
             </div>
         </div>
         <div class="footer">
@@ -543,8 +618,10 @@ let range:CountableClosedRange&lt;Int&gt; = 0...10  //0 ~ 10までの範囲を�
             </p>
             <p><a href="https://github.com/a-im12" style="color: white;">github : a-im12</a></p>
         </div>
+        <button id="scroll-to-top-btn">≫</button>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/autoloader/prism-autoloader.min.js
     "></script>
+    <script src="js/topButton.js"></script>
 </html>
