@@ -604,6 +604,54 @@ if num &lt; 10{
     print("numは10より小さい数です。")  // 実行されない
 }
                 </code></pre>
+                <p>
+                    if文の後ろに記述する条件式は、実行時にtrueまたはfalseの値に変化します。
+                    そのため、ifの後ろに条件式ではなく、直接Boolean型の値を記述してもif文は
+                    成立します。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// if Boolean型{
+// true時に実行したい処理
+// }else{
+// false時に実行したい処理
+// }
+
+if true{
+print("trueが入力されました")   // 実行される
+}else{
+print("falseが入力されました")  // 実行されない
+}
+
+let flg: Boolean = false
+
+if flg{
+print("trueが入力されました")   // 実行されない
+}else{
+rint("falseが入力されました")  // 実行される
+}
+                </code></pre>
+            </div>
+            <div class="contents" id="10">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">for文</h2>
+                <p>
+                    for文とは繰り返しを行うための制御構文で、
+                    配列や範囲型とよく組み合わせて使用されます。
+                    また、範囲型を使用する場合は<span style="font-size: 1.1em; color: black;">カウント可能</span>
+                    な型でないといけません。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+let range: CountableRange&lt;Int&gt; = 0..&lt;5
+
+for i in range{
+    print(i)    // 0 ~ 4までの数値が出力される
+}
+                </code></pre>
+                
             </div>
         </div>
         <div class="footer">
