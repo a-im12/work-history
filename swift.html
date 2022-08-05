@@ -22,11 +22,12 @@
                     <li><a href="#3">基本的な型</a></li>
                     <li><a href="#4">Optinal型</a></li>
                     <li><a href="#5">型のキャスト</a></li>
-                    <li><a href="#6">リスト</a></li>
-                    <li><a href="#7">辞書</a></li>
-                    <li><a href="#8">範囲</a></li>
-                    <li><a href="#9">if文</a></li>
-                    <li><a href="#10">for文</a></li>
+                    <li><a href="#6">配列</a></li>
+                    <li><a href="#7">タプル</a></li>
+                    <li><a href="#8">辞書</a></li>
+                    <li><a href="#9">範囲</a></li>
+                    <li><a href="#10">if文</a></li>
+                    <li><a href="#11">for文</a></li>
                 </ol>
             </div>
             <br>
@@ -108,6 +109,9 @@ let num:Int = 12
                     <tr>
                         <td><a href="#1_6">Any</a></td><td>全ての値を扱う</td>
                     </tr>
+                    <tr>
+                        <td><a href="#1_7">Void</a></td><td>値が何も存在しない状態を扱う</td>
+                    </tr>
                 </table>
                 <p>
                     概要に書いてあるとおり、それぞれで扱うことのできる値が変わってきます。
@@ -176,7 +180,7 @@ if let int = opInt{
                     (スコープとはその変数にアクセスできる範囲のこと)
                 </p>
                 <p>
-                    また、通常の<a href="#9">if文</a>と同じく、文末にelseを追加することで、アンラップに失敗したときの処理を
+                    また、通常の<a href="#10">if文</a>と同じく、文末にelseを追加することで、アンラップに失敗したときの処理を
                     追加することができます。
                 </p>
                 <!-- プログラムソースの埋め込み -->
@@ -355,7 +359,74 @@ var array:Array&lt;Int?&gt; = [1, 3, 4, nil, 5]
 array.removeAll()       // []
                 </code></pre>
             </div>
+            <!-- コンテンツ -->
             <div class="contents" id="7">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">タプル</h2>
+                <p>
+                    タプルとは配列のように複数の値を一つの変数、または定数で
+                    扱えるようにしたものです。また、配列と違い、複数の型を
+                    一つのまとまりとして扱うことができます。しかし、一方で
+                    値の追加や削除、繰り返しの処理はできません。
+                </p>
+                <strong>具体的な宣言方法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// var 変数名: (型名, 型名, 型名....) = (値, 値, 値.....)
+var tuple: (Int, String) = (1, "A")
+                </code></pre>
+                <br>
+                <p>
+                    基本は上のように宣言しますが、宣言の方法を変えることで、
+                    値にラベルをつけることができます。
+                </p>
+                <strong>宣言方法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// var 変数名: (ラベル名:型名, ラベル名:型名, ラベル名:型名....) = (値, 値, 値.....)
+var tuple: (number:Int, Name:String) = (1, "A")
+                </code></pre>
+                <br>
+                <p>
+                    タプルのメリットは、複数の型を同時に扱えるところにあります。
+                    後に紹介する関数で、一度に複数の値を返り値として戻したいとき
+                    などに重宝されます。
+                    また、値のアクセスには「変数名.要素番号」を使用します。要素番号は
+                    配列と同じく「0」から始まります。さらに、
+                    ラベル付きだった場合は「変数名.ラベル」とすることでアクセスすることが
+                    できます。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+var tuple: (Int, String) = (1, "A")
+var labelTuple:(number:Int, name:String) = (2, "B")
+
+// 変数名.要素番号
+print(tuple.1)      // A
+
+// 変数名.ラベル
+print(labelTuple.number)    // 2
+                </code></pre>
+                <br>
+                <p>
+                    値の更新は「変数名.要素番号 = 新しい値」とすることで更新できます。
+                    また、ラベル付きの場合は要素番号の代わりにラベルを指定しても更新できます。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+var tuple: (Int, String) = (1, "A")
+var labelTuple:(number:Int, name:String) = (2, "B")
+
+tuple.1 = "AA"
+print(tuple)    // (1, "AA")
+
+labelTuple.number = 200
+print(labelTuple)   // (number: 200, name: "B")
+                </code></pre>
+            </div>
+            <div class="contents" id="8">
                 <!-- コンテンツタイトル -->
                 <h2 class="contents-title">辞書</h2>
                 <p>
@@ -372,7 +443,6 @@ var dict:Dictionaly&lt;Int, String&gt; = [1 : "佐藤", 2 : "鈴木", 3 : "田�
                     この取り出した値は、<a href="#4">Optional型</a>となって返ってきます。また、存在しない
                     キーを指定した場合は、nil値が返ってきます。Optional型である理由は
                     ここにあるのかもしれないです。
-
                 </p>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
@@ -442,32 +512,32 @@ print(dict)     // [:]
                 </code></pre>
             </div>
             <!-- コンテンツ -->
-            <div class="contents" id="8">
+            <div class="contents" id="9">
                 <!-- コンテンツタイトル -->
                 <h2 class="contents-title">範囲</h2>
                 <p>
                     範囲型とはその名の通り一定の範囲を表すことのできる型です。
                     用途としては、ある数値がその範囲内に存在するかを調べたり、
-                    <a href="#10">for文</a>とあわせて使ったりします。
+                    <a href="#11">for文</a>とあわせて使ったりします。
                     また、範囲型にはさまざまな範囲を表す型があるので、覚えるのが
                     大変でした。以下が範囲型の一覧です。
                 </p>
                 <ul>
-                    <li><a href="#8_1">Range</a></li>
-                    <li><a href="#8_2">CountableRange</a></li>
-                    <li><a href="#8_3">ClosedRange</a></li>
-                    <li><a href="#8_4">CountableClosedRange</a></li>
-                    <li><a href="#8_5">PartialRangeFrom</a></li>
-                    <li><a href="#8_6">CountablePartialRangeFrom</a></li>
-                    <li><a href="#8_7">PartialRangeUpto</a></li>
-                    <li><a href="#8_8">PartialRangeThrough</a></li>
+                    <li><a href="#9_1">Range</a></li>
+                    <li><a href="#9_2">CountableRange</a></li>
+                    <li><a href="#9_3">ClosedRange</a></li>
+                    <li><a href="#9_4">CountableClosedRange</a></li>
+                    <li><a href="#9_5">PartialRangeFrom</a></li>
+                    <li><a href="#9_6">CountablePartialRangeFrom</a></li>
+                    <li><a href="#9_7">PartialRangeUpto</a></li>
+                    <li><a href="#9_8">PartialRangeThrough</a></li>
                 </ul>
                 <br>
-                <h3 id="8_1">Range</h3>
+                <h3 id="9_1">Range</h3>
                 <p>
                     Range型は以上~未満の範囲を表します。型には「Int」
                     「Double」「Float」が指定できます。
-                    また、型にIntを指定した場合、勝手に<a href="#8_2">CountableRange</a>
+                    また、型にIntを指定した場合、勝手に<a href="#9_2">CountableRange</a>
                     となります。
                     Range型はカウント不可なので、for文と組み合わせて使用することga
                     できません。
@@ -479,7 +549,7 @@ print(dict)     // [:]
 var range:Range&lt;Double&gt; = 1.2..&lt;5.5    // 1.2 ~ 5.49999999...までの範囲を表す
                 </code></pre>
                 <br>
-                <h3 id="8_2">CountableRange</h3>
+                <h3 id="9_2">CountableRange</h3>
                 <p>
                     CountableRange型は名前にもある通り、カウントできるRange型です。
                     指定できる型は、先ほども記述したように、Int型のみとなってます。
@@ -492,11 +562,11 @@ var range:Range&lt;Double&gt; = 1.2..&lt;5.5    // 1.2 ~ 5.49999999...までの�
 var range:CountableRange&lt;Int&gt; = 0..&lt;10     // 0 ~ 9までの範囲を表す
                 </code></pre>
                 <br>
-                <h3 id="8_3">ClosedRange</h3>
+                <h3 id="9_3">ClosedRange</h3>
                 <p>
                     CountableRange型は以上~その数値までの範囲を表します。
                     型には「Int」「Double」「Float」が指定できます。
-                    また、型にIntを指定した場合、勝手に<a href="#8_4">CountableClosedRange</a>
+                    また、型にIntを指定した場合、勝手に<a href="#9_4">CountableClosedRange</a>
                     となります。
                     ClosedRange型はカウント不可なので、for文と組み合わせて使用することはできません。
                 </p>
@@ -507,7 +577,7 @@ var range:CountableRange&lt;Int&gt; = 0..&lt;10     // 0 ~ 9までの範囲を�
 var range:ClosedRange&lt;Float&gt; = 1.0...4.9  // 1.0 ~ 4.9までの範囲を表す
                 </code></pre>
                 <br>
-                <h3 id="8_4">CountableClosedRange</h3>
+                <h3 id="9_4">CountableClosedRange</h3>
                 <p>
                     CountableClosedRange型はClosedRange型のカウント可能版の型です。
                     カウント可能なので、for文と組み合わせて使用することができます。
@@ -520,11 +590,11 @@ var range:ClosedRange&lt;Float&gt; = 1.0...4.9  // 1.0 ~ 4.9までの範囲を�
 let range:CountableClosedRange&lt;Int&gt; = 0...10  //0 ~ 10までの範囲を表す
                 </code></pre>
                 <br>
-                <h3 id="8_5">PartialRangeFrom</h3>
+                <h3 id="9_5">PartialRangeFrom</h3>
                 <p>
                     PartialRangeFrom型はその数値以上の範囲を表します。
                     型には「Int」「Double」「Float」が指定できます。
-                    また、型にIntを指定した場合、勝手に<a href="8_6">CountablePartialRangeFrom</a>
+                    また、型にIntを指定した場合、勝手に<a href="#9_6">CountablePartialRangeFrom</a>
                     となります。
                     PartialRangeFrom型はカウント不可なので、for文と組み合わせて
                     使用することはできません。
@@ -536,7 +606,7 @@ let range:CountableClosedRange&lt;Int&gt; = 0...10  //0 ~ 10までの範囲を�
 var range:PartialRangeFrom&lt;Double&gt; = 0.2...   // 0.2以上の範囲を表す
                 </code></pre>
                 <br>
-                <h3 id="8_6">CountablePartialRangeFrom</h3>
+                <h3 id="9_6">CountablePartialRangeFrom</h3>
                 <p>
                     CountablePartialRangeFrom型はPartialRangeFrom型の
                     カウント可能版です。カウントが可能なのでfor文と組み合わせて使用できますが、
@@ -550,7 +620,7 @@ var range:PartialRangeFrom&lt;Double&gt; = 0.2...   // 0.2以上の範囲を表�
 let range:CountablePartialRangeFrom&lt;Int&gt; = 100... // 100以上の範囲を表します
                 </code></pre>
                 <br>
-                <h3 id="8_7">PartialRangeUpto</h3>
+                <h3 id="9_7">PartialRangeUpto</h3>
                 <p>
                     PartialRangeUpto型はその数値未満の範囲を表します。
                     型には「Int」「Double」「Float」が指定できます。
@@ -563,7 +633,7 @@ let range:CountablePartialRangeFrom&lt;Int&gt; = 100... // 100以上の範囲を
 var range:PartialRangeUpto&lt;Int&gt; = ..&lt;10    // 9.999999999..までの範囲を表す
                 </code></pre>
                 <br>
-                <h3 id="8_8">PartialRangeThrough</h3>
+                <h3 id="9_8">PartialRangeThrough</h3>
                 <p>
                     PartialRangeThrough型はその数値以下の範囲を表します。
                     型には「Int」「Double」「Float」が指定できます。
@@ -577,7 +647,7 @@ let range:PartialRangeThrough&lt;Double&gt; = ...102.7  // 102.7までの範囲�
                 </code></pre>
             </div>
             <!-- コンテンツ -->
-            <div class="contents" id="9">
+            <div class="contents" id="10">
                 <!-- コンテンツタイトル -->
                 <h2 class="contents-title">if文</h2>
                 <p>
@@ -604,6 +674,7 @@ if num &lt; 10{
     print("numは10より小さい数です。")  // 実行されない
 }
                 </code></pre>
+                <br>
                 <p>
                     if文の後ろに記述する条件式は、実行時にtrueまたはfalseの値に変化します。
                     そのため、ifの後ろに条件式ではなく、直接Boolean型の値を記述してもif文は
@@ -633,25 +704,60 @@ rint("falseが入力されました")  // 実行される
 }
                 </code></pre>
             </div>
-            <div class="contents" id="10">
+            <div class="contents" id="11">
                 <!-- コンテンツタイトル -->
                 <h2 class="contents-title">for文</h2>
                 <p>
                     for文とは繰り返しを行うための制御構文で、
-                    配列や範囲型とよく組み合わせて使用されます。
+                    <a href="#6">配列</a>や<a href="#8">辞書</a>、<a href="9">範囲</a>とよく組み合わせて使用されます。
                     また、範囲型を使用する場合は<span style="font-size: 1.1em; color: black;">カウント可能</span>
                     な型でないといけません。
                 </p>
                 <strong>文法</strong>
                 <!-- プログラムソースの埋め込み -->
                 <pre><code class="language-javascript">
-let range: CountableRange&lt;Int&gt; = 0..&lt;5
+let range:CountableRange&lt;Int&gt; = 0..&lt;5     // 範囲型
+let array:Array&lt;String&gt; = ["あいうえお", "かきくけこ", "さしすせそ"]
+var dict:Dictionary<Int, String> = [1:"田中", 2:"高橋", 3:"佐藤", 4:"鈴木"]
 
+// 範囲型の場合
 for i in range{
     print(i)    // 0 ~ 4までの数値が出力される
 }
+
+// 配列の場合
+for s in array{
+    print(s)
+    // あいうえお
+    // かきくけこ
+    // さしすせそ
+    // 要素を一つづつ取り出すことができる
+}
+
+// 辞書の場合
+for data in dict{
+    print(i)
+    // (key: 2, value: "高橋")
+    // (key: 3, value: "佐藤")
+    // (key: 4, value: "鈴木")
+    // (key: 1, value: "田中")
+}
+
+for (key, value) in dict{
+    print("key: \(key), value: \(value)")
+    // key: 2, value: 高橋
+    // key: 1, value: 田中
+    // key: 4, value: 鈴木
+    // key: 3, value: 佐藤
+}
                 </code></pre>
-                
+                <p>
+                    このようにfor文に渡す型の違いによっておおきく
+                    挙動が変わります。特に個人的に辞書をfor文に渡したときの
+                    挙動がいちばん掴みにくいなと思いました。<br>
+                    辞書を変数が一つのfor文に渡した場合、(key:型, value:型)の
+                    <a href="#7">タプル型</a>が取得できます。
+                </p>
             </div>
         </div>
         <div class="footer">
