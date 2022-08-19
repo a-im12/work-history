@@ -29,6 +29,7 @@
                     <li><a href="#10">if文</a></li>
                     <li><a href="#11">for文</a></li>
                     <li><a href="#12">while文</a></li>
+                    <li><a href="#13">関数</a></li>
                 </ol>
             </div>
             <br>
@@ -757,7 +758,8 @@ for (key, value) in dict{
                     挙動が変わります。特に個人的に辞書をfor文に渡したときの
                     挙動がいちばん掴みにくいなと思いました。
                     辞書を変数が一つのfor文に渡した場合、(key:型, value:型)の
-                    <a href="#7">タプル型</a>が取得できます。
+                    <a href="#7">タプル型</a>が取得できます。また、得られたタプルは
+                    順番通りに並んでない場合があります。
                 </p>
             </div>
             <!-- コンテンツ -->
@@ -904,6 +906,129 @@ label1: for i in [0, 1, 2]{
                     直前の繰り返しから抜け出せないのに対し、ラベルを指定することで、
                     任意の繰り返しから抜け出すことができるようになります。
                 </p>
+            </div>
+            <div class="contents" id="13">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">関数</h2>
+                <p>
+                    関数とは、一つの処理をまとまりとして管理する方法です。
+                    これを使用することで、似たような処理を一箇所で管理することが
+                    できるようになるため、修正やコードを記述する時間を短縮することが
+                    できます。今までに使用してきた「print()」や「type()」なども
+                    関数の一つです。関数に渡す処理に必要な値を「引数」,関数で処理を行った
+                    結果の値を「戻り値」と言います。関数を使用する場合は「関数名(引数)」
+                    とすることで使用することができます。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// func 関数名(引数名: 型, 引数名: 型,...) -&gt; 戻り値の型{
+//      ここに行いたい処理を記述する
+//      return 戻り値
+//}
+
+// 渡された値(引数)に10を足して返す関数
+func addTen(num: Int) -&gt; Int{
+    let resultNum = num + 10
+    return resultNum
+}
+
+let result = addTen(num: 5)
+print(result)   // 15
+                </code></pre>
+                <p>
+                    上のプログラムでは、一つしか引数はありませんが、複数の引数を用意することもできます。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// 引数が複数だった場合
+// 引数1の引数2乗する関数
+func power(num1:Int, num2:Int)-&gt;Int{
+    var powNum:Int = 1
+
+    for _ in 0..&lt;num2{
+        powNum *= num1
+    }
+
+    return powNum
+}
+
+print(power(num1:2, num2:10))   // 1024
+                </code></pre>
+                <p>
+                    このように、宣言時に引数を複数用意してあげれば、関数に複数の値を渡すことができます。
+                    ここで、プログラマにとってとてもめんどくさいことがあります。それは、関数呼出時の
+                    <span style="font-size: 1.1em; color: black;">引数名の記述</span>です。
+                    今のプログラムでは引数の数だけ「関数名(引数名:値, 引数名:値, 引数名:値...)」といったように引数名を記述する
+                    必要があります。とてもめんどくさいです。それを解決する方法が、引数名の省略です。
+                    省略する方法は以下の通りです。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// 引数名の省略
+// 関数名(_ 関数内で使用する変数名:型)
+func double(_ num:Int)->Int{
+    return num * 2
+}
+
+print(double(8))    // 16
+                </code></pre>
+                <p>
+                    このように関数内で使用する変数名の前に「_」を記述することで、引数名の省略を
+                    行うことができます。また、「_」の代わりに任意の変数名を記述することで、引数名と
+                    関数内で使用する変数名を意図して分けることができます。
+                </p>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// 「_」の代わりに変数名を記述した場合
+// (引数名 関数内で使用する変数名:型)
+func power(coefficient i:Int, index j:Int)-&gt;Int{
+    let range:CountableRange&lt;Int&gt; = 0..&lt;j
+
+    var result:Int = 1
+    for _ in range{
+        result *= i
+    }
+    return result
+}
+
+print(power(coefficient: 10, index: 2)) // 100
+                </code></pre>
+                <p>
+                    このようにすることで、引数名と関数内の変数名を区別することができます。
+                    また、関数使用時の予測には、先に記述した引数名が表示されます。
+                </p>
+                <img src="img/hikisuu.png" style="width:100%">
+                <h3>引数のデフォルト値</h3>
+                <p>
+                    今までに記述してきたプログラムは、引数に必ず値を渡さなければエラーとなってしまいます。
+                    また、特に変化しない値を引数で管理する場合もあります。
+                </p>
+                <p>※引数を渡し忘れていた場合のエラー</p>
+                <img src="img/hikisuu_error.png" style="width:100%">
+                <p>
+                    これらを解決するために引数には、
+                    <span style="font-size: 1.1em; color: black;">デフォルト値</span>というものが
+                    存在します。
+                </p>
+                <strong>文法</strong>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+// 関数名(引数名:型 = デフォルト値)
+func power(coefficient:Int, index:Int = 2)-&gt;Int{
+    let range = 0..&lt;index
+
+    var result:Int = 1
+    for _ in range{
+        result *= coefficient
+    }
+    return result
+}
+
+power
+                </code></pre>
             </div>
         </div>
         <div class="footer">
