@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>~~ToDo_of_swift~~</title>
+        <link rel="stylesheet" href="style/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism-okaidia.min.css">
+    </head>
+    <body>
+        <div class="header">
+            <!-- そのページの概要 -->
+            <h1 class="page-title">~~ToDo_of_swift~~</h1>
+            <a class="top-link" href="index.html">Back to Top</a>
+        </div>
+        <div class="main">
+            <h3>links</h3>
+            <div class="links">
+                <ol>
+                    <!-- ページ内リンク -->
+                    <li><a href="#1">アプリ概要</a></li>
+                    <li><a href="#2">コード(全体)</a></li>
+                    <li><a href="#3">コード解説</a></li>
+                </ol>
+            </div>
+            <br>
+            <br>
+            <br>
+            <!-- コンテンツ -->
+            <div class="contents" id="1">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">アプリ概要</h2>
+                <p>
+                    今回はとりあえず何か形あるものを作りたいと思い、ToDoリストの作成に取り組みました。
+                    Swiftの予備知識がなくても、簡単に作成できると思います。
+                </p>
+                <h3>機能紹介</h3>
+                <p>
+                    ここでは機能の紹介をしたいと思います。まずは起動直後の画面です。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/start.png" width="30%">
+                </div>
+                <p>
+                    レイアウトは至ってシンプルです。
+                    上部左右にそれぞれ「削除」「追加」ボタンがあり、そこから、リストの追加や
+                    削除を行います。
+                    <br>
+                    <br>
+                    次に「追加」ボタン押下時の画面です。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/add.png" width="30%">
+                </div>
+                <p>
+                    この画面では、ToDoリストへタスクの追加を行います。
+                    今回のデモ画像では、「洗濯」とありますが、そのテキストボックス内に
+                    登録したいタスクを入力し、確定ボタンを押下することで、タスクが登録され、
+                    自動でトップ画面へと戻ります。
+                    また、空白での登録を受け付けず、タスクが必ず入力されていることを保証します。
+                    さらに、タスクの登録を中断したい場合は左上の「&lt;」ボタンを押下することで
+                    登録作業を中断し、トップ画面に戻ることができます。
+                    <br>
+                    <br>
+                    実際に確定ボタンを押下すると次の画像の様に、登録されたタスクが表示された
+                    トップ画面が表示されます。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/result.png" width="30%">
+                </div>
+                <p>
+                    追加できました!!<br>
+                    他のタスクも追加してみましょう。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/list.png" width="30%">
+                </div>
+                <p>
+                    ここで、気がついた方もいると思いますが、タスクの左側に丸がありますね。<br>
+                    この丸はチェックリストになっており、タスク終了時にそのタスクを押下することで
+                    終了の印のチェックがつきます。
+                    実際に押下してみると...
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/checked.png" width="30%">
+                </div>
+                <p>
+                    このようにチェックがつきます。<br>
+                    チェックがついた状態で左上の「削除」ボタンを押下すると...
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/deleted.png" width="30%">
+                </div>
+                <p>
+                    この様に、チェックしていたタスクが削除されました。<br>
+                    以上がこのToDoアプリの機能になります。簡単な構造ですが、ToDoリストに必要な
+                    最低限のものは実現できました。
+                </p>
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="2">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">コード(全体)</h2>
+                <p>以下がコードの全体像になります。</p>
+                <h3>/ContentView</h3>
+                <!-- プログラムソースの埋め込み -->
+                <pre><code class="language-javascript">
+import SwiftUI
+
+struct TaskData{
+    var title:String
+    var completed:Bool
+    var id = UUID()
+}
+
+struct ContentView: View {
+    
+    @State var appendTask:Bool = false
+    @State var taskList:Array<TaskData> = []
+    @State var task:String = ""
+    @State var rowCnt:Int = 0
+    
+    var body: some View {
+        if self.appendTask {
+            NavigationView{
+                List{
+                    TextField("タスクを入力してください", text: $task)
+                    
+                    HStack{
+                        Spacer()
+                        Button(action: {
+                            print("確定")
+                            if task != ""{
+                                taskList.append(TaskData(title: task, completed: false))
+                                task = ""
+                                appendTask.toggle()
+                            }
+                        }){
+                            Text("確定")
+                        }.foregroundColor(Color.blue)
+                        Spacer()
+                        
+                    }
+                    
+                }.navigationTitle("追加")
+                    .navigationBarItems(leading: Button(action: {
+//                        print("戻る")
+                        appendTask.toggle()
+                    }){
+                        Image(systemName: "lessthan")
+                    })
+            }
+        }else{
+            NavigationView{
+                VStack{
+                    List(0..&lt;taskList.count, id:\.self){ index in
+                        Button(action:{
+//                            print("ボタンが押されたよ")
+                            
+                            taskList[index].completed.toggle()
+                        }){
+                            HStack{
+                                Image(systemName:taskList[index].completed ? "checkmark.circle.fill" : "circle")
+                                Text(taskList[index].title)
+                            }
+                        }.foregroundColor(.black)
+                    }.navigationTitle("ToDoリスト")
+                        .navigationBarItems(leading: Button(action: {
+                            self.rowCnt = taskList.count
+                            for i in 0..&lt;taskList.count{
+                                print((self.rowCnt - 1) - i)
+                                if taskList[(self.rowCnt - 1) - i].completed{
+                                    taskList.remove(at: (self.rowCnt - 1) - i)
+                                }
+                                
+                            }
+                        }){
+                            Text("削除")
+                        }, trailing: Button(action: {
+                            appendTask.toggle()
+                        }){
+                            Text("追加")
+                        })
+                }
+            }
+        }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ContentView()
+        }
+            
+    }
+}                    
+                </code></pre>
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="3">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">コード解説</h2>
+                <p>
+                    ここでは、今回コードを作成するにあたって重要だと思った部分を抜粋して
+                    解説します。
+                </p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>
+                荒川 歩夢<br>
+                ayumu arakawa
+            </p>
+            <br>
+            <p>
+                KCS鹿児島情報専門学校 / 北海道情報大学通信教育部経営情報学部システム情報科<br>
+                出身地 : 鹿児島
+            </p>
+            <p><a href="https://github.com/a-im12" style="color: white;">github : a-im12</a></p>
+        </div>
+        <button id="scroll-to-top-btn">≫</button>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/autoloader/prism-autoloader.min.js
+    "></script>
+    <script src="js/topButton.js"></script>
+</html>
