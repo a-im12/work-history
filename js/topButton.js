@@ -8,7 +8,6 @@ function scroll_to_top(){
 	window.scroll({top: 0, behavior: 'smooth'});
 };
 
-
 //スクロール時のイベントを追加
 window.addEventListener( 'scroll' , scroll_event );
 
