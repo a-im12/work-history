@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>~~Screen Transition~~</title>
+        <link rel="stylesheet" href="style/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism-okaidia.min.css">
+    </head>
+    <body>
+        <div class="header">
+            <!-- そのページの概要 -->
+            <h1 class="page-title">~~Screen Transition~~</h1>
+            <a class="top-link" href="index.html">Back to Top</a>
+        </div>
+        <div class="main">
+            <h3>links</h3>
+            <div class="links">
+                <ol>
+                    <!-- ページ内リンク -->
+                    <li><a href="#1">アプリ概要</a></li>
+                    <li><a href="#2">コード(全体)</a></li>
+                    <li><a href="#3">コード解説</a></li>
+                    <li><a href="#4">まとめ</a></li>
+                </ol>
+            </div>
+            <br>
+            <br>
+            <br>
+            <!-- コンテンツ -->
+            <div class="contents" id="1">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">アプリ概要</h2>
+                <p>
+                    今回は画面遷移だけ行うアプリを作成しました。<br>
+                    簡単な画面遷移は「ToDoリスト」で行いましたが、普及しているアプリが行なっているような
+                    かっこいい画面遷移を導入したいと思い、アプリ作成に取り組みました。
+                </p>
+                <h3>機能紹介</h3>
+                <p>
+                    画面遷移の学習のため作成したアプリなので、その他の機能はありません。<br>
+                    下の画像が、アプリ起動直後の画面となります。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/screenTransition_top.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    表示されているボタンを押すと、下からぬるっとViewが表示されます。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/afterTransition.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    表示されたViewの中には、前の画面に戻るためのボタンが表示されます。<br>
+                    ボタンの指示通り、前の画面に戻るためにはボタンを押下するほかにも、下にスワイプすることでも
+                    前の画面に戻ることができます。
+                </p>
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="2">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">コード(全体)</h2>
+                <p>
+                    以下がコードの全体像になります。
+                </p>
+                <h3><a href="https://github.com/a-im12/Screen-transition/blob/main/20220908ScreenTransition/20220908ScreenTransition/ContentView.swift">/ContentView</a></h3>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+import SwiftUI
+
+struct ContentView: View {
+    
+    @State private var isShowingView: Bool = false
+
+    var body: some View {
+        Button {
+            isShowingView.toggle()
+        } label: {
+            Text("下からぬるっと表示")
+        }
+        .sheet(isPresented: $isShowingView) {
+            SecondView()
+        }
+    }
+}
+
+struct SecondView: View {
+    
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        Button(action:{
+            dismiss()
+        }){
+            Text("押下または、下スワイプで戻る")
+        }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+
+</code></pre>
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="3">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">コード解説</h2>
+                <p>
+                    今回の画面遷移の学習にあたって、この<a href="https://qiita.com/tty_0/items/cecbc6dccaf31db65cb8">記事</a>を参考にしました。
+                    ほとんど記事のコードを書き写すだけで、実現できました。
+                </p>
+                <h3>どこが下からぬるっと遷移させているのか</h3>
+                <p>
+                    下からぬるっと表示させているのは、13行目の.sheetの機能です。
+                </p>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+.sheet(isPresented: $isShowingView) {
+    SecondView()
+}
+
+</code></pre>
+                <p>
+                    このように表示したいViewを中に入れてあげることで、指定したViewを下からぬるっと表示することができます。<br>
+                    また、isPresentedの引数に「$isShowingView」と言った値を渡しています。この変数は、5行目で@Stateとして宣言した
+                    Bool型の変数になります。今回の場合のように変数名の前にダラーマーク($)をつけることを、バインディングと言います。
+                    バインディングの主な機能としては、その変数を監視し、変数の変更やそれによる処理の変更などを行なってくれます。
+                    私自身の解釈では、変数の変化による処理の変化の保証といった感じです。<br>
+                    この引数にtrueが渡された場合は下からぬるっと表示し、falseが渡された場合は元の画面に戻ります。
+                </p>
+                <h3>アノテーション</h3>
+                <p>
+                    今回初めてみたアノテーションがありました。それは22行目に登場した、@Environmentです。
+                </p>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+@Environment(\.dismiss) var dismiss
+
+</code></pre>
+                <p>
+                    このアノテーションは、()内で指定した環境・状態を取得できるようにするものです。
+                    今回の例では、dismissを取得しています。このdismissとは、実行することで表示している
+                    プレゼンを閉じることができます。これによりボタンを押下することで、別の構造体であるContentView内の
+                    isShowingView変数を変更してくれます。おそらく、.sheetの引数がバインディングされていないといけない
+                    理由は、ここにあるのかもしれないですね。
+                </p>
+            </div>
+            <div class="contents" id="4">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">まとめ</h2>
+                <p>
+                    今回は画面遷移をよりカッコ良くするために学習を行いました。取り組む前は、
+                    長いプログラムや複雑な構造が必要なのかと身構えていましたが、実際に取り組んでみると
+                    短いコードで、簡単に行うことができたので驚きました。また、今回初めて学習した
+                    アノテーションや.sheetにつては、自分なりに解釈してみましたが、実際の挙動とは少し
+                    異なるのではないのかなとも思っています。今回の学習で、より実践に近い画面遷移ができるようになったので
+                    実際に取り入れたアプリを次回は作成したいと思います。
+                </p>
+                <p>
+                    《参考文献》<br>
+                    SwiftUIで画面遷移を実装する<br>
+                    <a href="https://qiita.com/tty_0/items/cecbc6dccaf31db65cb8">https://qiita.com/tty_0/items/cecbc6dccaf31db65cb8</a><br>
+                    <br>
+                    @EnvironmentでViewの環境値を読み取ろう-SwiftUI<br>
+                    <a href="https://x.gd/LXms5">https://x.gd/LXms5</a>
+                </p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>
+                荒川 歩夢<br>
+                ayumu arakawa
+            </p>
+            <br>
+            <p>
+                KCS鹿児島情報専門学校 / 北海道情報大学通信教育部経営情報学部システム情報科<br>
+                出身地 : 鹿児島
+            </p>
+            <p><a href="https://github.com/a-im12" style="color: white;">github : a-im12</a></p>
+        </div>
+        <button id="scroll-to-top-btn">≫</button>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/autoloader/prism-autoloader.min.js
+    "></script>
+    <script src="js/topButton.js"></script>
+</html>
