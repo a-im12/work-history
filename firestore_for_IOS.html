@@ -18,6 +18,9 @@
                 <ol>
                     <!-- ページ内リンク -->
                     <li><a href="#1">アプリ概要</a></li>
+                    <li><a href="#2">コード(全体)</a></li>
+                    <li><a href="#3">Firestoreの導入</a></li>
+                    <li><a href="#4">まとめ</a></li>
                 </ol>
             </div>
             <br>
@@ -38,6 +41,284 @@
                     この画面では入力欄に名前、年齢を入力し登録ボタンを押下すると、入力されたデータが連携している
                     Firestoreに保存する処理を行ってくれます。<br>
                     また、登録されているデータを確認するためには、右上の確認画面ボタンを押下することで、確認画面に遷移し確認することができます。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/DataBase/DataRead.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    この画面は、登録内容をコンソールに表示するボタンのみが設置されています。<br>
+                    このボタンを押下すると...
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/DataBase/printData.png" width="100%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    このように登録内容が表示されます。
+                </p>
+            </div>
+            <div class="contents" id="2">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">コード(全体)</h2>
+                <p>以下がコードの全体像になります。</p>
+                <ul>
+                    <li><a href="#2_1">ContentView</a></li>
+                    <li><a href="#2_2">ConfimationView</a></li>
+                </ul>
+                <h3 id="2_1"><a href="https://github.com/a-im12/Firestore_for_IOS/blob/main/20220911DBtest/20220911DBtest/ContentView.swift">ContentView</a></h3>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+import SwiftUI
+import Firebase
+
+struct ContentView: View {
+    @State var name:String = ""
+    @State var age:String = ""
+    @State private var isShowingAleart:Bool = false
+    var saveData:[String:Any] = [:]
+    
+    var body: some View {
+        NavigationView{
+            VStack{
+                TextField("名前を入力してください", text:$name)
+                TextField("年齢を入力してください", text:$age)
+                Button(action: {
+                    guard let intAge = Int(age) else {
+                        isShowingAleart = true
+                        return
+                    }
+                    let saveData:[String:Any] = ["name":name, "age":intAge]
+                    Firestore.firestore().collection("parson").document().setData(saveData)
+                }){
+                    Text("登録")
+                }.alert(isPresented: $isShowingAleart){
+                    Alert(title: Text("登録失敗"),
+                    message: Text("年齢は数字で入力してください"))
+                }
+            }
+            .navigationTitle("登録画面")
+                .toolbar{
+                    ToolbarItem(placement: .navigationBarTrailing){
+                        NavigationLink(destination: ConfimationView()){
+                            Text("確認画面")
+                        }
+                    }
+                }
+        }
+    }
+}
+
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+</code></pre>
+                <h3 id="2_2"><a href="https://github.com/a-im12/Firestore_for_IOS/blob/main/20220911DBtest/20220911DBtest/ConfimationView.swift">ConfimationView</a></h3>
+<!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+import SwiftUI
+import Firebase
+
+struct ConfimationView: View {
+    let db = Firestore.firestore()
+    var body: some View {
+        Button(action:{
+//            db.collection("parson").getDocuments(){
+            db.collection("parson").whereField("name", isEqualTo: "hoge").getDocuments(){ (querySnapshot, error) in
+                if let error = error{
+                    print("Error getting documents: \(error)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                    }
+                }
+            }
+        }){
+            Text("取得データ確認")
+        }
+    }
+}
+</code></pre>
+            </div>
+            <div class="contents" id="3">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">コード解説</h2>
+                <p>
+                    今回のプログラムはほとんどFirebaseのドキュメントから引用できたので、
+                    比較的簡単に実現することができました。
+                </p>
+                <br>
+                <h3>ドキュメントの追加</h3>
+                <p>ドキュメントの追加は以下のコードで行います。</p>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+// ContentView
+Firestore.firestore().collection("コレクション名").document("ドキュメント名").setData(追加するデータ)
+
+</code></pre>
+                <p>
+                    この一行でデータの登録を行なってくれます。<br>
+                    また、ドキュメント名の部分に引数を渡さなかった場合には、Firestoreによって自動的に一意のIDが割り振られます。<br>
+                </p>
+                <p>
+                    追加するデータの型は[String : Any]型の辞書となります。<br>
+                    さらに、Firestoreに登録されてあるデータを読み込むには以下のコードを実行します。
+                </p>
+<pre><code class="language-javascript">
+// ConfimationView
+Firestore.firestore().collection("コレクション名").whereField("ドキュメントのフィールド名", isEqualTo: "欲しい値").getDocuments(){ (querySnapshot, error) in
+    if let error = error{
+        print("Error getting documents: \(error)")
+    } else {
+        for document in querySnapshot!.documents {
+            print("\(document.documentID) => \(document.data())")
+        }
+    }
+}
+</code></pre>
+                <p>
+                    これにより、指定したデータを取得することができます。<br>
+                    取得したデータは後ろのクロージャによって処理され、for文によって一件一件読み込まれています。<br>
+                    さらに、上のコードの1行目を以下のコード
+                </p>
+<pre><code class="language-javascript">
+// ConfimationView
+Firestore.firestore().collection("parson").getDocuments()
+</code></pre>
+                <p>
+                    とすることで、指定したドキュメントの全てのデータを一覧取得することができます。<br>
+                    とりあえず一覧取得したい場合はこのコードを、絞り込んで取得したい場合は「whereField」を使用すれば
+                    よさそうですね。
+                </p>
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="3">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">Firestoreの導入</h2>
+                <p>
+                    今回の取り組みの中で一番苦戦したといってもいいのが、Firestoreの導入になります。
+                    初めてFirebaseに触れたので、エラーの対処やパッケージのインストールにかなり時間がかかってしまいました。
+                </p>
+                <p>
+                    ここでは、Firestoreと連携するまでの流れを記述したいと思います。
+                </p>
+                <h3>プロジェクトの作成</h3>
+                <p>
+                    まず初めに、Firebaseでプロジェクトを作成しなければなりません。<br>
+                    作成後、プロジェクトの画面にいくと以下のようなトップ画面が表示されます。
+                </p>
+                <div style="text-align:center;">
+                    <img src="img/DataBase/Firebaseproject_top.png" width="100%">
+                </div>
+                <h3>アプリの追加</h3>
+                <p>
+                    次に作成するアプリをFirebaseと連携させるために、
+                    プロジェクトへアプリの情報を追加しなければなりません。<br>
+                    今回はIOSアプリなので「IOS+」のボタンを押下しましょう。
+                </p>
+                <div style="text-align:center;">
+                    <img src="img/DataBase/Addapp_to_Firebase.png" width="100%">
+                </div>
+                <p>
+                    すると、このような画面に遷移します。ここで入力が必須なのは「AppleバンドルID」です。
+                    そのほかの欄は必要に応じて入力しましょう。<br>
+                </p>
+                <h3>バンドルIDとは?</h3>
+                <p>
+                    バンドルIDとは、アプリを識別するためのIDのことです。このIDと連携することで、
+                    アプリ内でFirebaseの機能を使用することができます。
+                </p>
+                <h3>確認方法</h3>
+                <p>
+                    確認方法は、まずアプリのプロジェクトファイルを選択します。
+                </p>
+                <div style="text-align:center;">
+                    <img src="img/DataBase/add_InfoFile.png" width="80%">
+                </div>
+                <p>
+                    すると以下のような画面になるので、そこでTARGETSにあるアプリの名前を押下します。
+                </p>
+                <div style="text-align:center;">
+                    <img src="img/DataBase/Bundle_Identifier.png" width="100%">
+                </div>
+                <p>
+                    その中の「Identity」の欄にIDがあるので、そのIDを先ほどの入力欄にコピペしましょう。
+                </p>
+                <h3>設定ファイルのダウンロード</h3>
+                <p>
+                    アプリの追加を終えたら、設定ファイルのダウンロードを行います。
+                </p>
+                <div style="text-align:center;">
+                    <img src="img/DataBase/Download_Info.png" width="100%">
+                </div>
+                <p>
+                    このファイルをダウンロードしたら、プロジェクトフォルダの直下に格納しましょう。
+                </p>
+                <h3>Firebase SDKの追加</h3>
+                <p>
+                    次に使用するFirebaseのパッケージをアプリに追加します。
+                </p>
+                <div style="text-align:center;">
+                    <img src="img/DataBase/Package_link.png" width="100%">
+                </div>
+                <p>
+                    このページにあるgithubのリンクをコピーしましょう。<br>
+                    パッケージの追加は、XcodeのFileから行います。
+                </p>
+                <div style="text-align:center;">
+                    <img src="img/DataBase/Chose_add_Package.png" width="100%">
+                </div>
+                <p>
+                    Fileを選択すると「Add Packages...」とあるのでそこを押下しましょう。
+                </p>
+                <div style="text-align:center;">
+                    <img src="img/DataBase/search_package.png" width="100%">
+                </div>
+                <p>
+                    押下して出てきた画面の右上の検索欄に、先ほどコピーしたリンクを貼り付けます。<br>
+                    するとFirebaseのパッケージが表示されるので、バージョンを選択します。<br>
+                    バージョンを指定する必要がない場合は、最新のものを選びましょう。
+                </p>
+                <div style="text-align:center;">
+                    <img src="img/DataBase/Chose_packageVersion.png" width="100%">
+                </div>
+                <p>
+                    選択したら、右下の「Add Package」を押下し、使用するライブラリを選択します。<br>
+                    今回は「FirebaseAnalytics 」と「FirebaseFirestore」を選択しました。
+                </p>
+                <div style="text-align:center;">
+                    <img src="img/DataBase/Chose_Package_Products.png" width="100%">
+                </div>
+                <p>
+                    選択したら、右下の「Add Package」を押下し、インストールを待ちます。
+                </p>
+                <div style="text-align:center;">
+                    <img src="img/DataBase/Package_wait.png" width="100%">
+                </div>
+                <p>
+                    インストールが完了すると、指定したライブラリが使用できるようになります。
+                </p>
+            </div>
+            <!-- コンテンツ -->
+            <div class="contents" id="4">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">まとめ</h2>
+                <p>
+                    今回は、アプリにFirestoreを導入する練習として、アプリの制作に取り組みました。
+                    Firestoreの導入で苦戦した、パッケージのインストールでは、上に記述した方法の他に
+                    podファイルによる方法も存在します。参考にしていたサイトによって方法が違い、それが
+                    原因で苦戦しました。作成後、podファイルによる方法を試したのですが、手数も少なく
+                    簡単に導入できたので、次回からはpodによる導入を行おうと思います。<br>
+                    また、記述したコード自体は簡単で理解しやすいものだったので、利用するハードルは比較的低いと思いました。
+                </p>
+                <p>
+                    《参考文献》
+                    SwiftUIとFirebaseを使って簡単なチャットアプリを作る<br>
+                    <a href="https://qiita.com/From_F/items/85ae490283c11c6f795f">https://qiita.com/From_F/items/85ae490283c11c6f795f</a><br>
+                    <br>
+                    Firebase ドキュメント<br>
+                    <a href="https://firebase.google.com/docs/firestore/query-data/get-data?hl=ja">https://firebase.google.com/docs/firestore/query-data/get-data?hl=ja</a>
                 </p>
             </div>
         </div>
