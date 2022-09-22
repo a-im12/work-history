@@ -2,6 +2,11 @@ h1, h2, h3, p, a, ul, ol, strong{
     font-family: Georgia, serif;
 }
 
+.card{
+    /* border:1px gray solid; */
+    box-shadow: 10px 5px 5px gray;
+}
+
 .header{
     padding:10px;
     border-bottom: 1px solid gray;
@@ -17,7 +22,6 @@ h1, h2, h3, p, a, ul, ol, strong{
     width: 250px;
     height: 250px;
     object-fit: cover;
-
 }
 
 .start{
