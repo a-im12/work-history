@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>~~Firebase_auth_for_IOS~~</title>
+        <link rel="stylesheet" href="style/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism-okaidia.min.css">
+    </head>
+    <body>
+        <div class="header">
+            <!-- そのページの概要 -->
+            <h1 class="page-title">~~Firebase_auth_for_IOS~~</h1>
+            <a class="top-link" href="index.html">Back to Top</a>
+        </div>
+        <div class="main">
+            <h3>links</h3>
+            <div class="links">
+                <ol>
+                    <!-- ページ内リンク -->
+                    <li><a href="#1">アプリ概要</a></li>
+                    <li><a href="#2">コード(全体)</a></li>
+                    <li><a href="#3">コード解説</a></li>
+                </ol>
+            </div>
+            <br>
+            <br>
+            <br>
+            <!-- コンテンツ -->
+            <div class="contents" id="1">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">アプリ概要</h2>
+                <p>
+                    今回は、ユーザの登録・認証を行うアプリを作成しました。<br>
+                    今回もFirebaseによりこれらの機能を実現しました。<br>
+                    まずはトップ画面です。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/Auth/Top.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    この画面では、ユーザ登録されている利用者に登録時のメールアドレスとパスワードを入力してもらいます。
+                    入力が完了し、認証成功するとマイページへ遷移します。<br>
+                    また、まだ登録していないユーザは「登録されていない方はこちら」ボタンを押下し、Sign up画面に遷移して
+                    登録してもらいます。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/Auth/Sign_in.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    この画面はSignUp画面です。<br>
+                    ユーザ登録していない場合はメールアドレスとパスワードを入力して登録を行います。
+                    登録済みの方が再度同じメールアドレスで登録をしようとすると、登録に失敗し二重登録
+                    ができないようになっています。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/Auth/Mypage.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    次にマイページ画面です。<br>
+                    マイページ画面にはユーザ情報をコンソールに表示するボタンとログアウトのボタンが設置されています。
+                    ログアウトボタンを押下すると自動的にトップページに遷移します。
+                </p>
+            </div>
+            <div class="contents" id="2">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">コード(全体)</h2>
+                <p>
+                    以下がコードの全体像になります。
+                </p>
+                <ul>
+                    <li><a href="#2_1">ContentView</a></li>
+                    <li><a href="#2_2">SignUpView</a></li>
+                    <li><a href="#2_3">UserView</a></li>
+                    <li><a href="#2_4">UserInfo</a></li>
+                    <li><a href="#2_5">UserAuth</a></li>
+                </ul>
+                <h3 id="2_1"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/ContentView.swift">ContentView</a></h3>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
+
+struct ContentView: View {
+    
+    let db = Firestore.firestore()
+    var userInfo:UserInfo = UserInfo()
+    var userAuth:UserAuth = UserAuth()
+    
+    @State var mail:String = ""
+    @State var pass:String = ""
+    @State var errorMessage:String = ""
+    @State var isLogin:Bool = false
+    @State var uid:String = ""
+    
+    var body: some View {
+        NavigationView{
+            VStack {
+                TextField("mailaddress", text: $mail)
+                TextField("password", text: $pass)
+                Button(action:{
+                    // 入力欄のチェック 正しい入力: "", 入力エラー: エラーメッセージ
+                    errorMessage = userInfo.checkEntry(email: mail, pass: pass)
+                    
+                    if errorMessage == ""{
+                        // ユーザ認証
+                        Auth.auth().signIn(withEmail: mail, password: pass) {(authResult, error) in
+                            guard authResult?.user != nil else{
+                                print("認証失敗")
+                                return
+                            }
+                            if let user = authResult?.user{
+                                uid = user.uid
+                                mail = user.email ?? ""
+                                
+                                // 新規ユーザのドキュメントの作成。　既存ユーザの場合は作成されない。
+                                userAuth.accessUserDB(uid: uid, email: mail)
+                                // 画面遷移するために変換
+                                isLogin = true
+                            }
+                        }
+                    }else{
+                        print(errorMessage)
+                    }
+                }){
+                    Text("ログイン")
+                }.padding()
+                
+                // sign in画面への遷移
+                NavigationLink(destination: SignUpView()){
+                    Text("登録されていない方はこちら")
+                }
+                
+                NavigationLink(destination: UserView(uid: uid), isActive: $isLogin){
+                    EmptyView()
+                }
+            }
+            .padding()
+        }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}    
+</code></pre>
+                <h3 id="2_2"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/SignUpView.swift">SignUpView</a></h3>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
+
+struct SignUpView: View {
+    
+    let userAuth:UserAuth = UserAuth()
+    let userInfo:UserInfo = UserInfo()
+    
+    @State var mail:String = ""
+    @State var pass:String = ""
+    @State var errorMessage = ""
+    var body: some View {
+        VStack{
+            TextField("mailaddress", text: $mail)
+            TextField("password", text: $pass)
+            Button(action:{
+                
+                print("登録ボタン押下")
+                // 入力欄のチェック 入力不備あり: エラーメッセージ, 不備なし: ""
+                errorMessage = userInfo.checkEntry(email: mail, pass: pass)
+                
+                if errorMessage == ""{
+                    // 新規ユーザの作成
+                    userAuth.createUser(email: mail, pass: pass)
+                }else{
+                    print(errorMessage)
+                }
+            }){
+                Text("Sign Up")
+            }.padding()
+        }
+    }
+}    
+</code></pre>
+                <h3 id="2_3"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/UserView.swift">UserView</a></h3>
+            <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+import SwiftUI
+import FirebaseFirestore
+import FirebaseAuth
+
+struct UserView: View {
+        
+    var uid:String
+    var db = Firestore.firestore()
+    var userInfo:UserInfo = UserInfo()
+    let userAuth:UserAuth = UserAuth()
+    @State var isLogout = false     // ログイン画面へ戻るための変数
+    
+    init(uid: String) {
+        self.uid = uid
+    }
+    
+    var body: some View {
+        NavigationView{
+            VStack{
+                Text("Hello")
+                Button(action:{
+                    // 登録されているユーザの情報を取得して表示
+                    userInfo.getUserInfo(uid: uid)
+                }){
+                    Text("ユーザ情報の表示")
+                }.padding()
+                
+                Button(action:{
+                    // ログアウト処理
+                    isLogout = userAuth.logOut()
+                }){
+                    Text("ログアウト")
+                }
+                
+            }.navigationTitle("マイページ")
+        }
+        
+        NavigationLink(destination: ContentView(), isActive: $isLogout){
+            EmptyView()
+        }
+        
+    }
+}
+</code></pre>
+                <h3 id="2_4"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/UserInfo.swift">UserInfo</a></h3>
+<!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+import Foundation
+import FirebaseFirestore
+
+class UserInfo{
+    
+    let db = Firestore.firestore()
+    
+    // Firestoreに登録されているユーザ情報の表示
+    func getUserInfo(uid:String){
+        self.db.collection("users").document(uid).getDocument{(document, error) in
+            
+            if let document = document{
+                let dataDescription = document.data().map(String.init(describing: )) ?? "nil"
+                print("Document data: \(dataDescription)")
+            }
+        }
+    }
+    
+    // 入力欄の判定
+    func checkEntry(email:String, pass:String) -> String{
+        if email == ""{
+            return "メールアドレスを入力してください。"
+        }else if pass == ""{
+            return "パスワードを入力してください"
+        }else{
+            return ""
+        }
+    }
+    
+    // 新規ログインユーザのドキュメント作成
+    func createNewUserDocument(uid:String, email:String){
+        self.db.collection("users").document(uid).setData([
+            "uid" : uid,
+            "email" : email,
+            "display_name" : "anonymous",
+            "create_date" : FirebaseFirestore.Timestamp()
+        ]){error in
+            if let error = error{
+                print("Oh no!! this program has error!:\(error)")
+            }else{
+                print("success!")
+            }
+        }
+    }
+}
+</code></pre>
+                <h3 id="2_5"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/UserAuth.swift">UserAuth</a></h3>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+import Foundation
+import FirebaseAuth
+import FirebaseFirestore
+
+class UserAuth{
+    
+    var uid:String = ""
+    var email:String = ""
+
+    let db = Firestore.firestore()
+    let userInfo = UserInfo()
+    
+    // ユーザの新規作成
+    func createUser(email: String, pass: String){
+        Auth.auth().createUser(withEmail: email, password: pass) { authResult, error in
+            guard authResult?.user != nil else{
+                print("登録できません")
+                return
+            }
+        }
+    }
+    // Firestoreへのアクセス
+    func accessUserDB(uid:String, email:String){
+        self.db.collection("users").document(uid).getDocument(){(document, error) in
+            if let document = document {
+                if document.exists{
+                    print("already done")
+                }else{
+                    // 新規ユーザの場合はドキュメントの作成
+                    self.userInfo.createNewUserDocument(uid: uid, email:email)
+                }
+            }
+        }
+    }
+    
+    // ログアウト処理
+    func logOut() -> Bool{
+        let firebaseAuth = Auth.auth()
+        var isSuccess = false
+        do {
+            try firebaseAuth.signOut()
+            defer{
+                isSuccess = true
+            }
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+        return isSuccess
+    }
+    
+    // userIdの取得
+    func getUserId() -> String{
+        return self.uid
+    }
+    
+    // emailの取得
+    func getUserEmail() -> String{
+        return self.email
+    }
+}
+</code></pre>
+            </div>
+            <div class="contents" id="3">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">コード解説</h2>
+                <p>
+                    今回はFirebaseによる認証について解説していきます。<br>
+                    まずは、ユーザの新規作成です。
+                </p>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+// UserAuth
+Auth.auth().createUser(withEmail: email, password: pass) { authResult, error in
+    guard authResult?.user != nil else{
+        print("登録できません")
+        return
+    }
+}
+</code></pre>
+                <p>
+                    このプログラムにより、ユーザの新規作成が行われます。
+                    また、既存のユーザが登録しようとした場合はエラーとなり、登録に失敗します。
+                </p>
+                <p>
+                    ログイン処理についてです。
+                </p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>
+                荒川 歩夢<br>
+                ayumu arakawa
+            </p>
+            <br>
+            <p>
+                KCS鹿児島情報専門学校 / 北海道情報大学通信教育部経営情報学部システム情報科<br>
+                出身地 : 鹿児島
+            </p>
+            <p><a href="https://github.com/a-im12" style="color: white;">github : a-im12</a></p>
+        </div>
+        <button id="scroll-to-top-btn">≫</button>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/autoloader/prism-autoloader.min.js
+    "></script>
+    <script src="js/topButton.js"></script>
+</html>
