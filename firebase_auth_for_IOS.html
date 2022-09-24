@@ -20,6 +20,7 @@
                     <li><a href="#1">アプリ概要</a></li>
                     <li><a href="#2">コード(全体)</a></li>
                     <li><a href="#3">コード解説</a></li>
+                    <li><a href="#4">まとめ</a></li>
                 </ol>
             </div>
             <br>
@@ -74,7 +75,7 @@
                     <li><a href="#2_4">UserInfo</a></li>
                     <li><a href="#2_5">UserAuth</a></li>
                 </ul>
-                <h3 id="2_1"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/ContentView.swift">ContentView</a></h3>
+                <h3 id="2_1"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/ContentView.swift">ContentView.swift</a></h3>
                 <!-- プログラムソースの埋め込み -->
 <pre><code class="language-javascript">
 import SwiftUI
@@ -146,7 +147,7 @@ struct ContentView_Previews: PreviewProvider {
     }
 }    
 </code></pre>
-                <h3 id="2_2"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/SignUpView.swift">SignUpView</a></h3>
+                <h3 id="2_2"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/SignUpView.swift">SignUpView.swift</a></h3>
                 <!-- プログラムソースの埋め込み -->
 <pre><code class="language-javascript">
 import SwiftUI
@@ -184,7 +185,7 @@ struct SignUpView: View {
     }
 }    
 </code></pre>
-                <h3 id="2_3"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/UserView.swift">UserView</a></h3>
+                <h3 id="2_3"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/UserView.swift">UserView.swift</a></h3>
             <!-- プログラムソースの埋め込み -->
 <pre><code class="language-javascript">
 import SwiftUI
@@ -231,7 +232,7 @@ struct UserView: View {
     }
 }
 </code></pre>
-                <h3 id="2_4"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/UserInfo.swift">UserInfo</a></h3>
+                <h3 id="2_4"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/UserInfo.swift">UserInfo.swift</a></h3>
 <!-- プログラムソースの埋め込み -->
 <pre><code class="language-javascript">
 import Foundation
@@ -280,7 +281,7 @@ class UserInfo{
     }
 }
 </code></pre>
-                <h3 id="2_5"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/UserAuth.swift">UserAuth</a></h3>
+                <h3 id="2_5"><a href="https://github.com/a-im12/Firebase_Auth_for_IOS/blob/main/20220919Authtest/20220919Authtest/UserAuth.swift">UserAuth.swift</a></h3>
                 <!-- プログラムソースの埋め込み -->
 <pre><code class="language-javascript">
 import Foundation
@@ -349,12 +350,12 @@ class UserAuth{
                 <!-- コンテンツタイトル -->
                 <h2 class="contents-title">コード解説</h2>
                 <p>
-                    今回はFirebaseによる認証について解説していきます。<br>
-                    まずは、ユーザの新規作成です。
+                    今回はFirebaseによる認証について解説していきます。
                 </p>
+                <h3>新規ユーザの作成</h3>
                 <!-- プログラムソースの埋め込み -->
 <pre><code class="language-javascript">
-// UserAuth
+// UserAuth.swift
 Auth.auth().createUser(withEmail: email, password: pass) { authResult, error in
     guard authResult?.user != nil else{
         print("登録できません")
@@ -366,9 +367,196 @@ Auth.auth().createUser(withEmail: email, password: pass) { authResult, error in
                     このプログラムにより、ユーザの新規作成が行われます。
                     また、既存のユーザが登録しようとした場合はエラーとなり、登録に失敗します。
                 </p>
+                <h3>ログイン処理</h3>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+// ContentView.swift
+Auth.auth().signIn(withEmail: mail, password: pass) {(authResult, error) in
+    guard authResult?.user != nil else{
+        print("認証失敗")
+        return
+    }
+    if let user = authResult?.user{
+        uid = user.uid
+        mail = user.email ?? ""
+        
+        // 新規ユーザのドキュメントの作成。 既存ユーザの場合は作成されない。
+        userAuth.accessUserDB(uid: uid, email: mail)
+        // 画面遷移するために変換
+        isLogin = true
+    }
+}
+</code></pre>
                 <p>
-                    ログイン処理についてです。
+                    ログインはこの処理で実装できます。<br>
+                    本来は「UserAuth」クラスに記述したかったのですが、
+                    呼び出してもうまく動作できなかったので、今回は「ContentView」の中に
+                    記述しました。<br>
+                    クロージャの引数の「authResult」にはログイン情報が、「error」には
+                    エラー情報が格納されています。クロージャ内ではまず、guard文によって
+                    authResultがnilでないことを保証しています。<br>
+                    authResultにはログインが成功しなかった場合はauthResultにnilが格納され、
+                    成功した場合はログインしたユーザのログイン情報が格納されます。<br>
+                    guard文を抜けた後は、ログイン情報から、ユーザIDとメールアドレスを取得しています。その後は、
+                    ユーザが初ログインの場合はユーザ情報を格納したドキュメントを作成し、マイページ画面へと遷移しています。
                 </p>
+                <h3>ログアウト処理</h3>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+// UserAuth.swift
+do {
+    try firebaseAuth.signOut()
+    defer{
+        isSuccess = true
+    }
+} catch let signOutError as NSError {
+    print("Error signing out: %@", signOutError)
+}
+</code></pre>
+                <p>
+                    ログアウトはこのコードで行なっています。<br>
+                    try・catch文によってログアウト失敗時のエラー処理を行なっています。
+                    また、try文の後ろにあるdefer文はログアウトが成功した時のみ実行されます。
+                    isSuccess変数は、画面を遷移させる戻り値のための変数になります。
+                </p>
+                <h3>ドキュメントの存在の確認</h3>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+// UserAuth.swift
+    func accessUserDB(uid:String, email:String){
+    self.db.collection("users").document(uid).getDocument(){(document, error) in
+        if let document = document {
+            if document.exists{
+                print("already done")
+            }else{
+                // 新規ユーザの場合はドキュメントの作成
+                self.userInfo.createNewUserDocument(uid: uid, email:email)
+            }
+        }
+    }
+}
+</code></pre>
+                <p>
+                    ユーザごとのドキュメントは、そのユーザの初回ログイン時に作成されます。
+                    そのため、まずログインが成功したら、そのユーザ専用のドキュメントが存在するかを調べます。
+                    この関数では、存在した場合コンソールに「already done」と表示し、存在しない場合は、
+                    ドキュメント作成を行う関数を呼び出します。
+                </p>
+                <h3>ドキュメントの作成</h3>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+// UserInfo.swift
+    func createNewUserDocument(uid:String, email:String){
+    self.db.collection("users").document(uid).setData([
+        "uid" : uid,
+        "email" : email,
+        "display_name" : "anonymous",
+        "create_date" : FirebaseFirestore.Timestamp()
+    ]){error in
+        if let error = error{
+            print("Oh no!! this program has error!:\(error)")
+        }else{
+            print("success!")
+        }
+    }
+}
+</code></pre>
+                <p>
+                    この関数では、新たにユーザごとのドキュメントを作成しています。<br>
+                    データの登録時にエラーが発生したら、コンソールにエラー情報を表示し、
+                    問題がなければコンソールに「success」と表示されます。
+                </p>
+                <h3>データの取得</h3>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+func getUserInfo(uid:String){
+    self.db.collection("users").document(uid).getDocument{(document, error) in
+        
+        if let document = document{
+            let dataDescription = document.data().map(String.init(describing: )) ?? "nil"
+            print("Document data: \(dataDescription)")
+        }
+    }
+}
+</code></pre>
+                <p>
+                    この関数によってユーザごとの情報を取得しています。<br>
+                    ユーザを指定するために、引数のuidによってドキュメントのパスを指定しています。
+                </p>
+                <h3>Firestoreのセキュリティルール</h3>
+                <!-- プログラムソースの埋め込み -->
+<pre><code class="language-javascript">
+rules_version = '2';
+service cloud.firestore {
+    match /databases/{database}/documents {
+        match /users/{userId}{
+            allow write: if 
+                request.auth != null;
+            
+            allow read, delete: if
+                request.auth.uid == userId;
+        }
+    }
+}
+</code></pre>
+                <p>
+                    今回、認証の実装を行ったので他のユーザの情報の改竄を防がなくてはいけなくなりました。
+                    Firestoreにはそれらを実装するためのセキュリティルールが存在します。<br>
+                    今回のセキュリティルールでは、ログイン済みの全てユーザには「allow write」によって書き込み権限を
+                    付与し、読み込みや削除の権限は「request.auth.uid == userId」によって自分のドキュメントにだけ
+                    付与しています。<br>
+                    ここで、初めてセキュリティルールを使用するにあたって不思議に思った構文があります。<br>
+                    パス名のところにある「{userId}」といったような記述方法です。<br>
+                    この記述方法はパスの「{userId}」にあたる部分が変数となりルール内の比較などに使用することができるようになります。<br>
+                    いまいちよくわからないですね...<br>
+                    実例で考えてみましょう。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/Auth/sampkedata.png" width="100%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    上の画像は今回作成したアプリに登録したユーザのデータになります。<br>
+                    上のセキュリティルールにある{userId}にはこの画像にある赤枠の部分がそれぞれ入ってきます。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/Auth/sample_redborder.png" width="100%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    こうすることで、「このユーザのドキュメントはどこだ?」といった処理が可能になります。
+                </p>
+                <h3>アクセス制御</h3>
+                <div style="text-align: center;">
+                    <img src="img/Auth/error.png" width="100%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    これはログアウト後のユーザがドキュメントから、自身の情報を取得しようとしたときのエラーになります。
+                    ログアウトした場合、セキュリティルールによって権限が剥奪されるため、ドキュメントを参照することが
+                    できなくなり、エラーが発生します。ルールがしっかりと適用されている証拠ですね。
+                </p>
+                <!-- コンテンツ -->
+            <div class="contents" id="4">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">まとめ</h2>
+                <p>
+                    今回は、ユーザの認証・ログイン・ログアウト・セキュリティルールの追加を行いました。
+                    ユーザの認証面は、ドキュメントを参考にすれば問題なく実装できたのですが、セキュリティルール
+                    の追加に苦戦しました。こういう時はこうして欲しいといった考えをルール内で表現することが難しく
+                    色々と試行錯誤して実装することができました。今回である程度コツを掴めたと思うので、
+                    これからの作成でより、感覚を磨いていけたらなと思います。<br>
+                    また、今回のFirebaseとの連携方法はCocoapodによってインストールする方法を取りました。
+                    <a href="firestore_for_IOS.html">Firestore_for_IOS</a>で行った方法よりもはるかに
+                    簡単でした。さらに今回はViewでの処理と、その他の処理を分ける試みも行いました。
+                    長いコードを細かく分けると可読性も高まり、処理の流れもわかりやすくなるので、これからも
+                    意識して分割していこうと思います。
+                </p>
+                <p>
+                    《参考文献》<br>
+                    Firebaseドキュメント<br>
+                    <a href="https://firebase.google.com/docs/auth/ios/password-auth?hl=ja">https://firebase.google.com/docs/auth/ios/password-auth?hl=ja</a>
+                    <a href="https://firebase.google.com/docs/database/security/rules-conditions?hl=ja">https://firebase.google.com/docs/database/security/rules-conditions?hl=ja</a>
+                    <a href="https://firebase.google.com/docs/auth/ios/manage-users?hl=ja">https://firebase.google.com/docs/auth/ios/manage-users?hl=ja</a>
+                </p>
+            </div>
             </div>
         </div>
         <div class="footer">
