@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>~~Dialy Calendar~~</title>
+        <link rel="stylesheet" href="style/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism-okaidia.min.css">
+    </head>
+    <body>
+        <div class="header">
+            <!-- そのページの概要 -->
+            <h1 class="page-title">~~Dialy Calendar~~</h1>
+            <a class="top-link" href="index.html">Back to Top</a>
+        </div>
+        <div class="main">
+            <h3>links</h3>
+            <div class="links">
+                <ol>
+                    <!-- ページ内リンク -->
+                    <li><a href="#1">アプリ概要</a></li>
+                </ol>
+            </div>
+            <br>
+            <br>
+            <br>
+            <!-- コンテンツ -->
+            <div class="contents" id="1">
+                <!-- コンテンツタイトル -->
+                <h2 class="contents-title">アプリ概要</h2>
+                <div style="text-align: center;">
+                    <img src="img/DialyCalendar/icon.png" width="70%">
+                </div>
+                <p>
+                    今回は日にち毎に日記をつけることができるアプリを作成しました。
+                    まずはトップ画面です。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/DialyCalendar/top.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    トップ画面では、ログイン処理を行っています。<br>
+                    ログインに必要なメールアドレスとパスワードを入力し、ログインボタンを押下することで
+                    ログインに成功するとカレンダー画面へと遷移します。また、ログイン情報の確認が取れなかったり、
+                    入力に不備があった場合は、それに応じたエラーメッセージを以下のようなアラートにて警告します。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/DialyCalendar/error.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    一方で、アカウントを持っていない場合はログインボタンの下にあるリンクをクリックすることで
+                    アカウント登録画面へ遷移します。<br>
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/DialyCalendar/signup.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    こちらがアカウント登録画面になります。<br>
+                    ここでは登録に必要なメールアドレスとパスワードを入力しボタンを押下することで、
+                    アカウントを登録することができます。また、ログイン処理と同様に処理中に不備が発生した
+                    場合は、エラーメッセージのアラートが表示されています。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/DialyCalendar/calnedar.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    こちらがログイン後のカレンダー画面になります。<br>
+                    カレンダーでは、月の左右にある「&lt;」「&gt;」ボタンを押下することで
+                    表示するカレンダーの月を変更することができます。また、日付のそれぞれが
+                    ボタンとなっており、押下することで以下の日記を表示する画面へと遷移します。
+                    ログアウトしたい場合は
+                    <br>
+                    <br>
+                    オレンジ色の日は現在の日にちになります。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/DialyCalendar/sampledialy.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    日記表示画面では、登録した日記が表示されます。<br>
+                    日記が登録されていない場合は、画像にある文章が表示されます。日記を追加する場合は
+                    右上にある「+」ボタンを押下することで追加画面へ遷移することができます。
+                </p>
+                <div style="text-align: center;">
+                    <img src="img/DialyCalendar/adddialy.png" width="30%" style="border: 1px solid gray;">
+                </div>
+                <p>
+                    日記追加画面では、テキストフィールドに入力された文字が日記として、FireStoreに
+                    登録してくれます。テキストフィールドが空白の場合エラーメッセージを表示し、
+                    登録することはできません。
+                </p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>
+                荒川 歩夢<br>
+                ayumu arakawa
+            </p>
+            <br>
+            <p>
+                KCS鹿児島情報専門学校 / 北海道情報大学通信教育部経営情報学部システム情報科<br>
+                出身地 : 鹿児島
+            </p>
+            <p><a href="https://github.com/a-im12" style="color: white;">github : a-im12</a></p>
+        </div>
+        <button id="scroll-to-top-btn">≫</button>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/autoloader/prism-autoloader.min.js
+    "></script>
+    <script src="js/topButton.js"></script>
+</html>
